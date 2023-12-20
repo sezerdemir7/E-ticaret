@@ -9,6 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("/cartItem")
@@ -20,9 +23,13 @@ public class CartItemController {
         this.cartItemService = cartItemService;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<List<CartItemResponse>> getCartItemById(@PathVariable Long id){
-        return ResponseEntity.ok(cartItemService.getCartItemById(id));
+    @GetMapping("/{cartItemId}")
+    public ResponseEntity<List<CartItemResponse>> getCartItemById(@RequestParam Long cartItemId){
+        return new ResponseEntity(cartItemService.getCartItemById(cartItemId),OK);
+    }
+    @GetMapping("/customerId/{customerId}")
+    public ResponseEntity<List<CartItemResponse>> getCartItemByCustomerId(@RequestParam Long customerId){
+        return new ResponseEntity(cartItemService.getCartItemByCustomerId(customerId),OK);
     }
 
     //sepete ekleme
@@ -32,10 +39,10 @@ public class CartItemController {
     }
 
 
-    @DeleteMapping("/{productId}")
-    public ResponseEntity<Void> deleteCartItemByProductId(Long productId){
-        cartItemService.deleteCartItemByProductId(productId);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @DeleteMapping("/{customerId}/{productId}")
+    public ResponseEntity<Void> deleteCartItemByProductId(@RequestParam Long customerId,Long productId){
+        cartItemService.deleteCartItemByCustomerIdAndProductId(customerId,productId);
+        return new ResponseEntity<>(OK);
     }
 
 

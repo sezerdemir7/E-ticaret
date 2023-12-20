@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "stores")
 @Getter
@@ -16,6 +18,8 @@ public class Store extends BaseEntity {
 
     @JoinColumn(name = "Seller_Id")
     private Long sellerId;
+
+
 
 
 

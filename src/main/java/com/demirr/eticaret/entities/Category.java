@@ -18,7 +18,6 @@ public class Category extends BaseEntity {
     /*
     @OneToMany(mappedBy = "category")
     private Set<Product> products;
-
      */
 
 

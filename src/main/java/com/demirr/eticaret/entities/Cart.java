@@ -20,8 +20,12 @@ public class Cart extends BaseEntity {
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer;
 
+
     @JoinColumn(name = "Store_Id")
     private Long storeId;
+
+
+    private double totalPrice;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart")
     private Set<CartItem> cartItems;
@@ -35,7 +39,7 @@ public class Cart extends BaseEntity {
     @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
     private Customer customer;
 
-    private double totalPrice;
+
 
     private int totalItems;
 

@@ -1,66 +1,9 @@
 package com.demirr.eticaret.service;
 
 import com.demirr.eticaret.dto.response.OrderResponse;
-import com.demirr.eticaret.entities.*;
-import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.Set;
-@Service
-public class CartConfirmService {
+public interface CartConfirmService {
 
-    private final CartService cartService;
-    private final CustomerService customerService;
-    private final KargoService kargoService;
-    private final PaymentService paymentService;
-    private final OrderService orderService;
+    OrderResponse createOrderByCartId(Long cartId);
 
-    private final CartItemService cartItemService;
-
-    public CartConfirmService(CartService cartService, CustomerService customerService, KargoService kargoService, PaymentService paymentService, OrderService orderService, CartItemService cartItemService) {
-
-        this.cartService = cartService;
-        this.customerService = customerService;
-        this.kargoService = kargoService;
-        this.paymentService = paymentService;
-        this.orderService = orderService;
-        this.cartItemService = cartItemService;
-    }
-
-    public OrderResponse createOrderByCartId(Long cartId){
-        Order toSave= new Order();
-        Cart cart=cartService.getOneCartById(cartId);
-        Set<CartItem> cartItems =cart.getCartItems();
-
-        int totalOrderPrice= cartItemService.getTotalCartPrice(cartItems.stream().toList());
-
-        String teslimatAdresi=customerService.getOneCustomerById(cart.getCustomer().getId()).getAdres();
-
-        Kargo kargo=kargoService.createKargo(cart.getCustomer().getId(),teslimatAdresi);
-        LocalDateTime tahminiTaslimat = kargo.getTahminiTaslimat().atStartOfDay();
-
-        LocalDateTime bugun = LocalDateTime.now();
-
-        Payment payment=paymentService.createPayment(cart.getCustomer().getId(),totalOrderPrice);
-
-
-        toSave.setCustomer(cart.getCustomer());
-        //toSave.setOrderDate(LocalDateTime.now());
-        toSave.setStoreId(cart.getStoreId());
-        toSave.setTeslimatAdresi(teslimatAdresi);
-        toSave.setKargoId(kargo.getId());
-        toSave.setPaymentId(payment.getId());
-        toSave.setToplamTutar(totalOrderPrice);
-
-        if(tahminiTaslimat.isBefore(bugun)){
-            toSave.setStatus(true);
-        }
-        else {
-            toSave.setStatus(false);
-        }
-
-        return orderService.saveOrder(toSave);
-
-
-    }
 }

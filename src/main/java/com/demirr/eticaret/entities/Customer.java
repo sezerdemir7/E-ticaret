@@ -29,9 +29,12 @@ public class Customer extends BaseEntity {
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Order> orders;
 
+    /*
     public Customer() {
         this.orders = new ArrayList<>();
     }
+
+     */
 
     /* @OneToMany(mappedBy = "customer")
     private Set<Order> orders;

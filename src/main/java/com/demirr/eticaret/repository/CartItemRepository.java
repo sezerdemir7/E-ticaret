@@ -6,13 +6,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface CartItemRepository extends JpaRepository<CartItem,Long> {
 
     Optional<CartItem> findCartItemByCartId(Long id);
 
-    CartItem findCartItemByCustomerId(Long id);
+    List<CartItem> findCartItemByCustomerId(Long id);
     CartItem getById(Long id);
 
     @Query("SELECT ci FROM CartItem ci " +
@@ -20,7 +21,6 @@ public interface CartItemRepository extends JpaRepository<CartItem,Long> {
     Optional<CartItem> findByCustomerIdAndProductId(@Param("customerId") Long customerId,
                                                     @Param("productId") Long productId);
 
-
     @Transactional
-    void deleteByProductId(Long productId);
+    void deleteByProductIdAndCustomerId(Long customerId,Long productId);
 }

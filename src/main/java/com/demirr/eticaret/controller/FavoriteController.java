@@ -22,7 +22,7 @@ public class FavoriteController {
     public List<FavoriteResponse> getAllLikes(@RequestParam Optional<Long> customerId,
                                               @RequestParam Optional<Long> productId){
 
-        return favoriteService.getAllLikesWithParam(customerId,productId);
+        return favoriteService.getAllFavoritesWithParam(customerId,productId);
     }
 
     @PostMapping()
@@ -36,7 +36,7 @@ public class FavoriteController {
     }
 
     @DeleteMapping("/{favoriteId}")
-    public void deleteOneFavorite(@PathVariable Long favoriteId){
-        favoriteService.deleteOneFavoriteById(favoriteId);
+    public void deleteOneFavorite(@PathVariable Long customerId){
+        favoriteService.deleteOneFavoriteById(customerId);
     }
 }

@@ -4,12 +4,15 @@ import com.demirr.eticaret.dto.request.ProductRequest;
 import com.demirr.eticaret.dto.request.UpdateProductRequest;
 import com.demirr.eticaret.dto.response.ProductResponse;
 import com.demirr.eticaret.entities.Product;
+import com.demirr.eticaret.exception.ProductNotFoundException;
 import com.demirr.eticaret.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequestMapping("/product")
@@ -39,9 +42,15 @@ public class ProductController {
     @PutMapping("{id}")
     public ResponseEntity<ProductResponse> updateProductByProductId(@RequestParam Long id,
                                                                     @RequestBody UpdateProductRequest request){
-        return new ResponseEntity<>(productService.updateProductById(id,request), HttpStatus.OK);
+        return new ResponseEntity<>(productService.updateProductById(id,request), OK);
     }
 
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<String> handleProductNotFoundException(ProductNotFoundException exception){
+        return new ResponseEntity<>(exception.getMessage(), NOT_FOUND);
+
+    }
 
 
 
