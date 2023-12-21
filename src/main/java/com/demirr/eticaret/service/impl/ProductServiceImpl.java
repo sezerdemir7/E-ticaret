@@ -6,6 +6,7 @@ import com.demirr.eticaret.dto.response.ProductResponse;
 import com.demirr.eticaret.entities.Category;
 import com.demirr.eticaret.entities.Product;
 import com.demirr.eticaret.exception.ProductNotFoundException;
+import com.demirr.eticaret.exception.ProductOutOfStockException;
 import com.demirr.eticaret.repository.ProductRepository;
 import com.demirr.eticaret.service.CategoryService;
 import com.demirr.eticaret.service.ProductService;
@@ -63,6 +64,18 @@ public class ProductServiceImpl implements ProductService {
         return getProductByProduct(productRepository.save(product));
     }
 
+    public void updateProductStock(Long productId,int stok){
+        Product product=getOneProductById(productId);
+        if(product.getStok()<stok){
+            throw new ProductOutOfStockException("Prodcut stoğu yetersiz! product name:"+product.getName()
+                    +" stock:"+product.getStok());
+        }
+        int newStock;
+        newStock=product.getStok()-stok;
+        product.setStok(newStock);
+        productRepository.save(product);
+    }
+
     public ProductResponse getProductByProduct(Product product){
         return new ProductResponse(
                 product.getId(),product.getName(),product.getFiyat(),
@@ -76,4 +89,5 @@ public class ProductServiceImpl implements ProductService {
     public String getProductNameById(Long productId){
         return productRepository.findNameById(productId).orElseThrow(() ->new RuntimeException("Product bulunamadı"));
     }
+
 }

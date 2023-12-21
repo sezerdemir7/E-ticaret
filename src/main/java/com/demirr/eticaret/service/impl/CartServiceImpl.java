@@ -13,17 +13,35 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 @Service
 public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
-    private  final CustomerService customerService;
-    private final OrderService orderService;
+    private final CustomerService customerService;
 
-    public CartServiceImpl(CartRepository cartRepository, CustomerService customerService, OrderService orderService) {
+
+    public CartServiceImpl(CartRepository cartRepository, CustomerService customerService) {
         this.cartRepository = cartRepository;
         this.customerService = customerService;
-        this.orderService = orderService;
+
+    }
+
+    public Cart addCartItemToCart(CartItem cartItem) {
+
+        Customer customer = customerService.getCustomer(cartItem.getCustomerId());
+        Cart cart = getCartByCostumerId(cartItem.getCustomerId());
+        double totalPrice=0;
+
+        cart.getCartItems().add(cartItem);
+        for (CartItem itemSet:cart.getCartItems()) {
+            totalPrice +=itemSet.getToplamFiyat();
+        }
+        cart.setTotalPrice(totalPrice);
+        Cart tosave=saveCart(cart);
+
+        return tosave;
+
     }
 
 
@@ -33,8 +51,8 @@ public class CartServiceImpl implements CartService {
 
      */
 
-    public Cart getOneCartById(Long cartId){
-        return cartRepository.findById(cartId).orElseThrow(()->new RuntimeException("cart bulunamadı"));
+    public Cart getOneCartById(Long cartId) {
+        return cartRepository.findById(cartId).orElseThrow(() -> new RuntimeException("cart bulunamadı"));
     }
 
     public List<Cart> getAllCart() {
@@ -57,45 +75,46 @@ public class CartServiceImpl implements CartService {
         return cartResponses;
     }
 
-    public Cart getCartByCostumerId(Long customerId){
-        Cart cart= cartRepository.findByCustomerId(customerId).orElse(new Cart());
-        if(cart==null){
-            Customer customer=customerService.getCustomer(customerId);
+    public Cart getCartByCostumerId(Long customerId) {
+        Cart cart = cartRepository.findByCustomerId(customerId).orElse(new Cart());
+        if (cart == null) {
+            Customer customer = customerService.getCustomer(customerId);
             cart.setCustomer(customer);
         }
         return cart;
     }
 
-    public Cart saveCart(Cart cart){
+    public Cart saveCart(Cart cart) {
         return cartRepository.save(cart);
     }
-    public Cart addCartItemToCart(Long customerId, CartItem cartItem){
-        Cart cart = getCartByCostumerId(customerId);
-        Customer customer=customerService.getCustomer(customerId);
 
+    /*public Cart addCartItemToCart(Long customerId, CartItem cartItem) {
+
+        Customer customer = customerService.getCustomer(customerId);
+        Cart cart = getCartByCostumerId(customerId);
 
         cartItem.setCart(cart);
-        //cart.setStoreId(cartItem.getStoreId());
-        if(cart==null){
+        cart.setStoreId(cartItem.getStoreId());
+        if (cart.getCartItems() == null) {
             cart.setCartItems((Set<CartItem>) cartItem);
-        }
-        else{
+        } else {
             cart.getCartItems().add(cartItem);
         }
 
-        Cart saveCart=saveCart(cart);
+        Cart saveCart = saveCart(cart);
+
         customer.setCart(saveCart);
 
         return saveCart;
 
-    }
+    }*/
 
     public Cart getCartByCustomerId(Long customerId) {
         return cartRepository.findByCustomerId(customerId).orElse(new Cart());
     }
 
-    public Cart createCartByCustomerId(Customer customer,Long storeId) {
-        Cart newCart=new Cart();
+    public Cart createCartByCustomerId(Customer customer, Long storeId) {
+        Cart newCart = new Cart();
         newCart.setCustomer(customer);
         newCart.setStoreId(storeId);
         return cartRepository.save(newCart);

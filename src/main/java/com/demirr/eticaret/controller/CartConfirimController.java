@@ -22,7 +22,7 @@ public class CartConfirimController {
 
     @PostMapping()
     public ResponseEntity<OrderResponse> saveCartByCartId(@RequestParam Long cartId){
-        return new ResponseEntity<OrderResponse>(cartConfirmService.createOrderByCartId(cartId), HttpStatus.OK);
+        return new ResponseEntity<OrderResponse>(cartConfirmService.createOrderByCustomerId(cartId), HttpStatus.OK);
 
     }
 }

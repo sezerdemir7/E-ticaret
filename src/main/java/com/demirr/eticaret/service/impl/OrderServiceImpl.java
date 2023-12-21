@@ -6,7 +6,10 @@ import com.demirr.eticaret.repository.OrderRepository;
 import com.demirr.eticaret.service.OrderService;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
+
+import java.util.stream.Collectors;
+
 @Service
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
@@ -16,31 +19,21 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
-    public OrderResponse getActiveOrdersByCustomerId(Long customerId) {
-        Optional<Order> orders = orderRepository.findByCustomerIdAndStatus(customerId, false);
-        if (orders.isPresent()) {
-            Order order = orders.get();
-            return new OrderResponse(order.getTeslimatAdresi(), order.getToplamTutar(), "devam ediyor");
-        } else {
+    public List<OrderResponse> getActiveOrdersByCustomerId(Long customerId) {
+        List<Order> orders = orderRepository.findByCustomerIdAndStatus(customerId, false);
 
-            return null;
-        }
+        return orders.stream().map((order)-> new OrderResponse(order.getTeslimatAdresi(), order.getToplamTutar(),
+                    "Devam ediyor",order.getOrderDate())).collect(Collectors.toList());
+
     }
-    public Optional<Order> getCompletedOrdersByCustomerId(Long customerId){
-        return orderRepository.findByCustomerIdAndStatus(customerId,false);
+
+    public List<Order> getCompletedOrdersByCustomerId(Long customerId) {
+        return orderRepository.findByCustomerIdAndStatus(customerId, false);
     }
 
     public OrderResponse saveOrder(Order request){
         Order order= orderRepository.save(request);
-        String durum;
-        if(order.isStatus()){
-            durum="Teslim edildi";
-        }
-        else {
-            durum="Teslim edilmedi";
-        }
-
-        return new OrderResponse(order.getTeslimatAdresi(),order.getToplamTutar(),durum);
+        return new OrderResponse(order.getTeslimatAdresi(),order.getToplamTutar(),"teslim edilmedi",order.getOrderDate());
     }
 
 

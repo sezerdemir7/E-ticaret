@@ -2,9 +2,11 @@ package com.demirr.eticaret.service.impl;
 
 import com.demirr.eticaret.dto.request.CartItemRequest;
 import com.demirr.eticaret.dto.response.CartItemResponse;
+import com.demirr.eticaret.entities.Cart;
 import com.demirr.eticaret.entities.CartItem;
 import com.demirr.eticaret.entities.Customer;
 import com.demirr.eticaret.entities.Product;
+import com.demirr.eticaret.exception.ProductOutOfStockException;
 import com.demirr.eticaret.repository.CartItemRepository;
 import com.demirr.eticaret.service.*;
 import org.springframework.stereotype.Service;
@@ -38,9 +40,12 @@ public class CartItemServiceImpl implements CartItemService {
         Product product = productService.getOneProductById(request.getProductId());
         Customer customer = customerService.getCustomer(request.getCustomerId());
 
+        if(product.getStok()< request.getAdet()){
+            throw new ProductOutOfStockException("Product stoğu yetersiz! stok="+product.getStok());
+        }
+
         if (customer.getCart()==null) {
             cartService.createCartByCustomerId(customer, product.getStoreId());
-
         }
 
         int toplamFiyat = request.getAdet() * product.getFiyat();
@@ -49,44 +54,42 @@ public class CartItemServiceImpl implements CartItemService {
                 .orElse(null);
 
         if (cartItem != null) {
-
             cartItem.setAdet(request.getAdet());
             cartItem.setToplamFiyat(toplamFiyat);
-            //cartItem.setStoreId(product.getStoreId());
+            cartItem.setStoreId(product.getStoreId());
             cartItem.setCart(customer.getCart());
-            cartItemRepository.save(cartItem);
         } else {
-
             cartItem = new CartItem();
             cartItem.setAdet(request.getAdet());
             cartItem.setCustomerId(request.getCustomerId());
             cartItem.setProduct(product);
             cartItem.setCart(customer.getCart());
             cartItem.setToplamFiyat(toplamFiyat);
-           // cartItem.setStoreId(product.getStoreId());
-            cartItemRepository.save(cartItem);
+            cartItem.setStoreId(product.getStoreId());
+
         }
 
-
-
-        shoppingCartService.addProductToCart(cartItem);
+        Cart cart=cartService.addCartItemToCart(cartItem);
+        cartItem = cartItemRepository.findById(cartItem.getId()).get();
+        cartItem.setCart(cart);
+        //cartItemRepository.merge(cartItem);
+        cartItemRepository.save(cartItem);
 
         return new CartItemResponse(cartItem.getAdet(), product.getId(), cartItem.getToplamFiyat(),
-                Optional.ofNullable(product.getName()));
+                Optional.ofNullable(product.getName()),product.getStoreId());
 
     }
-
-
 
     public List<CartItemResponse> getCartItemById(Long id){
         Optional<CartItem> cartItem = cartItemRepository.findById(id);
 
         return cartItem.stream().map((t) -> new CartItemResponse(t.getAdet(), t.getProduct().getId(), t.getToplamFiyat(),
-                Optional.ofNullable(productService.getProductNameById(t.getProduct().getId())))).collect(Collectors.toList());
+                Optional.ofNullable(productService.getProductNameById(t.getProduct().getId())),t.getStoreId()))
+                .collect(Collectors.toList());
     }
 
-    public CartItem getOneCartItemById(Long id){
-        return cartItemRepository.findById(id).orElseThrow();
+    public CartItem getOneCartItemById(Long cartItemId){
+        return cartItemRepository.findById(cartItemId).orElseThrow();
     }
 
     public Optional<CartItem> getCartItemByCartId(Long cartId){
@@ -120,6 +123,7 @@ public class CartItemServiceImpl implements CartItemService {
     public List<CartItemResponse> getCartItemByCustomerId(Long customerId) {
         List<CartItem> cartItems= cartItemRepository.findCartItemByCustomerId(customerId);
         return cartItems.stream().map((t) -> new CartItemResponse(t.getAdet(), t.getProduct().getId(), t.getToplamFiyat(),
-                Optional.ofNullable(productService.getProductNameById(t.getProduct().getId())))).collect(Collectors.toList());
+                Optional.ofNullable(productService.getProductNameById(t.getProduct().getId())),t.getStoreId()))
+                .collect(Collectors.toList());
     }
 }

@@ -14,33 +14,34 @@ public class CartConfirimServiceImpl implements CartConfirmService{
     private final KargoService kargoService;
     private final PaymentService paymentService;
     private final OrderService orderService;
-
     private final CartItemService cartItemService;
+    private final ProductService productService;
 
     public CartConfirimServiceImpl(CartService cartService, CustomerService customerService, KargoService kargoService,
-                                   PaymentService paymentService, OrderService orderService, CartItemService cartItemService) {
+                                   PaymentService paymentService, OrderService orderService, CartItemService cartItemService, ProductService productService) {
         this.cartService = cartService;
         this.customerService = customerService;
         this.kargoService = kargoService;
         this.paymentService = paymentService;
         this.orderService = orderService;
         this.cartItemService = cartItemService;
+        this.productService = productService;
     }
 
-    public OrderResponse createOrderByCartId(Long cartId){
+    public OrderResponse createOrderByCustomerId(Long customerId){
         Order toSave= new Order();
-        Cart cart=cartService.getOneCartById(cartId);
+        Cart cart=cartService.getCartByCustomerId(customerId);
         Set<CartItem> cartItems =cart.getCartItems();
         Payment payment;
+        String teslimatAdresi;
+        Kargo kargo;
+        LocalDateTime tahminiTaslimat;
+
 
         int totalOrderPrice= cartItemService.getTotalCartPrice(cartItems.stream().toList());
-
-        String teslimatAdresi=customerService.getOneCustomerById(cart.getCustomer().getId()).getAdres();
-
-        Kargo kargo=kargoService.createKargo(cart.getCustomer().getId(),teslimatAdresi);
-        LocalDateTime tahminiTaslimat = kargo.getTahminiTaslimat().atStartOfDay();
-
-        LocalDateTime bugun = LocalDateTime.now();
+        teslimatAdresi=customerService.getOneCustomerById(cart.getCustomer().getId()).getAdres();
+        kargo=kargoService.createKargo(cart.getCustomer().getId(),teslimatAdresi);
+        tahminiTaslimat = kargo.getTahminiTaslimat().atStartOfDay();
 
         payment=paymentService.createPayment(cart.getCustomer().getId(),totalOrderPrice);
 
@@ -52,12 +53,12 @@ public class CartConfirimServiceImpl implements CartConfirmService{
         toSave.setKargoId(kargo.getId());
         toSave.setPaymentId(payment.getId());
         toSave.setToplamTutar(totalOrderPrice);
+        toSave.setStatus(false);
 
-        if(tahminiTaslimat.isBefore(bugun)){
-            toSave.setStatus(true);
-        }
-        else {
-            toSave.setStatus(false);
+
+
+        for (CartItem items:cartItems) {
+            productService.updateProductStock(items.getProduct().getId(),items.getProduct().getStok());
         }
 
         return orderService.saveOrder(toSave);

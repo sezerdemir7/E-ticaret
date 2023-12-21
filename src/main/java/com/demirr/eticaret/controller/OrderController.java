@@ -5,6 +5,7 @@ import com.demirr.eticaret.entities.Order;
 import com.demirr.eticaret.service.OrderService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -17,12 +18,12 @@ public class OrderController {
     }
 
     @GetMapping("/aktif/{customerId}")
-    public Optional<OrderResponse> getActiveOrdersByCustomerId(@RequestParam Long customerId){
-        return Optional.ofNullable(orderService.getActiveOrdersByCustomerId(customerId));
+    public List<OrderResponse> getActiveOrdersByCustomerId(@RequestParam Long customerId){
+        return orderService.getActiveOrdersByCustomerId(customerId);
     }
 
     @GetMapping("/tamamlanan/{customerId}")
-    public Optional<Order> getCompletedOrdersByCustomerId(@RequestParam Long customerId){
+    public List<Order> getCompletedOrdersByCustomerId(@RequestParam Long customerId){
         return orderService.getCompletedOrdersByCustomerId(customerId);
     }
 }

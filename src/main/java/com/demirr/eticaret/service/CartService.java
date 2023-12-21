@@ -27,7 +27,7 @@ public interface CartService {
 
     Cart saveCart(Cart cart);
 
-    Cart addCartItemToCart(Long customerId, CartItem cartItem);
+    Cart addCartItemToCart( CartItem cartItem);
 
     Cart getCartByCustomerId(Long customerId);
 

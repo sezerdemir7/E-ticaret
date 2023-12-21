@@ -24,11 +24,11 @@ public class CartItem extends BaseEntity {
 
     @JoinColumn(name = "Customer_Id")
     private Long customerId;
-   /* burda tutlmasına gerek yok cart sınıfında kontrol ediliyor
+
    @JoinColumn(name = "Store_Id")
     private Long storeId;
 
-     */
+
 
     /*
 

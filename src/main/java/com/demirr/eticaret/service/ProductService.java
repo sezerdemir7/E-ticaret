@@ -18,9 +18,11 @@ public interface ProductService {
     ProductResponse updateProductById(Long productId, UpdateProductRequest request);
 
     ProductResponse getProductByProduct(Product product);
+    void updateProductStock(Long productId,int stok);
 
     Product getOneProductById(Long id);
 
     String getProductNameById(Long productId);
+
 
 }

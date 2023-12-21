@@ -5,6 +5,7 @@ import com.demirr.eticaret.dto.request.UpdateProductRequest;
 import com.demirr.eticaret.dto.response.ProductResponse;
 import com.demirr.eticaret.entities.Product;
 import com.demirr.eticaret.exception.ProductNotFoundException;
+import com.demirr.eticaret.exception.ProductOutOfStockException;
 import com.demirr.eticaret.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,6 +51,10 @@ public class ProductController {
     public ResponseEntity<String> handleProductNotFoundException(ProductNotFoundException exception){
         return new ResponseEntity<>(exception.getMessage(), NOT_FOUND);
 
+    }
+    @ExceptionHandler(ProductOutOfStockException.class)
+    public ResponseEntity<String> handleProductOutOfStockException(ProductOutOfStockException exception){
+        return new ResponseEntity<>(exception.getMessage(),BAD_REQUEST);
     }
 
 

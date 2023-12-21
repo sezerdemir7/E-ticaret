@@ -15,14 +15,14 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final CustomerService customerService;
     private final CartService cartService;
 
-
     public ShoppingCartServiceImpl(CustomerService customerService, CartService cartService) {
         this.customerService = customerService;
         this.cartService = cartService;
 
+
     }
 
-    public void addProductToCart(CartItem cartItem) {
+    public Cart addProductToCart(CartItem cartItem) {
 
         Customer customer = customerService.getCustomer(cartItem.getCustomerId());
         Cart cart = cartService.getCartByCostumerId(cartItem.getCustomerId());
@@ -33,10 +33,11 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             totalPrice +=itemSet.getToplamFiyat();
         }
         cart.setTotalPrice(totalPrice);
-        cartService.saveCart(cart);
+        Cart tosave=cartService.saveCart(cart);
+        //customer.setCart(cart);
+        //customerService.save(customer);
 
-        customer.setCart(cart);
-        customerService.save(customer);
+        return tosave;
 
     }
 }

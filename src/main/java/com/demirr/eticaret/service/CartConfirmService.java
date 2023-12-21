@@ -4,6 +4,6 @@ import com.demirr.eticaret.dto.response.OrderResponse;
 
 public interface CartConfirmService {
 
-    OrderResponse createOrderByCartId(Long cartId);
+    OrderResponse createOrderByCustomerId(Long customerId);
 
 }
