@@ -5,34 +5,40 @@ import com.demirr.eticaret.dto.request.UpdateProductRequest;
 import com.demirr.eticaret.dto.response.ProductResponse;
 import com.demirr.eticaret.entities.Category;
 import com.demirr.eticaret.entities.Product;
-import com.demirr.eticaret.exception.ProductNotFoundException;
-import com.demirr.eticaret.exception.ProductOutOfStockException;
+import com.demirr.eticaret.entities.Store;
+import com.demirr.eticaret.exception.productexception.ProductNotFoundException;
+import com.demirr.eticaret.exception.productexception.ProductOutOfStockException;
 import com.demirr.eticaret.repository.ProductRepository;
 import com.demirr.eticaret.service.CategoryService;
 import com.demirr.eticaret.service.ProductService;
+import com.demirr.eticaret.service.StoreService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 @Service
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final CategoryService categoryService;
+    private final StoreService storeService;
 
-    public ProductServiceImpl(ProductRepository productRepository, CategoryService categoryService) {
+    public ProductServiceImpl(ProductRepository productRepository, CategoryService categoryService, StoreService storeService) {
         this.productRepository = productRepository;
         this.categoryService = categoryService;
+        this.storeService = storeService;
     }
 
     public Product saveProduct(ProductRequest request) {
         Category category=categoryService.getOneCategoryById(request.getCategoryId());
+        Store store=storeService.getOneStoreById(request.getStoreId());
+
         Product product=new Product();
         product.setName(request.getName());
         product.setFiyat(request.getFiyat());
         product.setStok(request.getStok());
-        product.setCategoryId(category.getId());
-        product.setCategoryName(category.getName());
-        product.setStoreId(request.getStoreId());
+        product.setCategory(category);
+        product.setStore(store);
         return productRepository.save(product);
     }
 
@@ -41,7 +47,8 @@ public class ProductServiceImpl implements ProductService {
         List<Product> products=productRepository.findAll();
         return  products.stream().map((product)->new ProductResponse(
                         product.getId(),product.getName(),product.getFiyat(),
-                        product.getCategoryId(),product.getCategoryName(),product.getStok(),product.getStoreId()))
+                        product.getCategory().getName(),
+                        product.getStok(),product.getStore().getName()))
                 .collect(Collectors.toList());
     }
 
@@ -49,7 +56,8 @@ public class ProductServiceImpl implements ProductService {
         List<Product> products=productRepository.findByNameContainingIgnoreCase(name);
         return products.stream().map((product)->new ProductResponse(
                         product.getId(),product.getName(),product.getFiyat(),
-                        product.getCategoryId(),product.getCategoryName(),product.getStok(),product.getStoreId()))
+                        product.getCategory().getName(),
+                        product.getStok(),product.getStore().getName()))
                 .collect(Collectors.toList());
     }
 
@@ -79,15 +87,28 @@ public class ProductServiceImpl implements ProductService {
     public ProductResponse getProductByProduct(Product product){
         return new ProductResponse(
                 product.getId(),product.getName(),product.getFiyat(),
-                product.getCategoryId(),product.getCategoryName(),product.getStok(),product.getStoreId());
+                product.getCategory().getName(),
+                product.getStok(),product.getStore().getName());
     }
 
-    public Product getOneProductById(Long id){
-        return productRepository.findById(id).orElseThrow(() ->new RuntimeException("Product bulunamadı"));
+    public Product getOneProductById(Long productId){
+        return productRepository.findById(productId).orElseThrow(()
+                ->new ProductNotFoundException("Product bulunamadı product_id="+productId));
     }
 
     public String getProductNameById(Long productId){
-        return productRepository.findNameById(productId).orElseThrow(() ->new RuntimeException("Product bulunamadı"));
+        return productRepository.findNameById(productId).orElseThrow(()
+                ->new ProductNotFoundException("Product bulunamadı"));
+    }
+
+
+    public boolean productStockControlById(Long productId,int adet) {
+        Product product=getOneProductById(productId);
+        if(product.getStok()<adet){
+            throw new ProductOutOfStockException("Product stoğu yetersiz! stok="+product.getStok());
+        }
+
+        return true;
     }
 
 }

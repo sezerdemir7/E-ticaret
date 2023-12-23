@@ -9,7 +9,7 @@ public interface StoreService {
 
     Store createStore(StoreRequest request);
 
-    Store getStoreById(Long id);
+    Store getOneStoreById(Long id);
 
     List<Store> getAllStore();
 

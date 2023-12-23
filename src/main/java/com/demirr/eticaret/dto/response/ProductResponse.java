@@ -11,22 +11,20 @@ public class ProductResponse {
     private Long id;
     private String name;
     private double fiyat;
-    private Long categoryId;
+    //private Long categoryId;
 
     private String categoryName;
     private int stok;
-    private Long storeId;
+    private String storeName;
+    //private Long storeId;
 
 
-    public ProductResponse(Long id, String name, double fiyat, Long categoryId, String categoryName, int stok, Long storeId) {
+    public ProductResponse(Long id, String name, double fiyat, String categoryName, int stok, String storeName) {
         this.id = id;
         this.name = name;
         this.fiyat = fiyat;
-        this.categoryId = categoryId;
         this.categoryName = categoryName;
         this.stok = stok;
-        this.storeId = storeId;
+        this.storeName = storeName;
     }
-
-
 }

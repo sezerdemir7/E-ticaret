@@ -12,10 +12,11 @@ import lombok.Setter;
 public class Payment extends BaseEntity {
 
 
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id",nullable = false)
-    private Long customerId;
+    private Customer customer;
 
-    private int OdenenTutar;
+    private int odenenTutar;
 
 
 }

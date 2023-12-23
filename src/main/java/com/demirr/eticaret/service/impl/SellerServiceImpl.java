@@ -37,4 +37,11 @@ public class SellerServiceImpl implements SellerService {
         List<Seller> sellerList= sellerRepository.findAll();
         return sellerList.stream().map(seller->new SellerResponse(seller)).collect(Collectors.toList());
     }
+
+
+    @Override
+    public Seller getOneSellerById(Long id) {
+        return sellerRepository.findById(id).orElseThrow(()->
+                new RuntimeException("Seller bulunamadi seller id="+id));
+    }
 }

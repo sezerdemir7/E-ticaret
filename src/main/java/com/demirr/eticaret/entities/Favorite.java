@@ -13,11 +13,12 @@ import lombok.Setter;
 public class Favorite extends BaseEntity {
 
 
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id", nullable = false)
-    private Long customerId;
+    private Customer customer;
 
-
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id", nullable = false)
-    private Long productId;
+    private Product product;
 
 }

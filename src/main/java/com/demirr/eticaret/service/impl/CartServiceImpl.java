@@ -4,10 +4,11 @@ import com.demirr.eticaret.dto.response.CartResponse;
 import com.demirr.eticaret.entities.Cart;
 import com.demirr.eticaret.entities.CartItem;
 import com.demirr.eticaret.entities.Customer;
+import com.demirr.eticaret.entities.Store;
 import com.demirr.eticaret.repository.CartRepository;
 import com.demirr.eticaret.service.CartService;
 import com.demirr.eticaret.service.CustomerService;
-import com.demirr.eticaret.service.OrderService;
+import com.demirr.eticaret.service.StoreService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,18 +20,19 @@ public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
     private final CustomerService customerService;
+    private final StoreService storeService;
 
 
-    public CartServiceImpl(CartRepository cartRepository, CustomerService customerService) {
+    public CartServiceImpl(CartRepository cartRepository, CustomerService customerService, StoreService storeService) {
         this.cartRepository = cartRepository;
         this.customerService = customerService;
-
+        this.storeService = storeService;
     }
 
     public Cart addCartItemToCart(CartItem cartItem) {
 
-        Customer customer = customerService.getCustomer(cartItem.getCustomerId());
-        Cart cart = getCartByCostumerId(cartItem.getCustomerId());
+        Customer customer = customerService.getCustomer(cartItem.getCustomer().getId());
+        Cart cart = getCartByCostumerId(cartItem.getCustomer().getId());
         double totalPrice=0;
 
         cart.getCartItems().add(cartItem);
@@ -115,8 +117,9 @@ public class CartServiceImpl implements CartService {
 
     public Cart createCartByCustomerId(Customer customer, Long storeId) {
         Cart newCart = new Cart();
+        Store store=storeService.getOneStoreById(storeId);
         newCart.setCustomer(customer);
-        newCart.setStoreId(storeId);
+        newCart.setStore(store);
         return cartRepository.save(newCart);
     }
 }

@@ -4,10 +4,9 @@ import com.demirr.eticaret.dto.request.ProductRequest;
 import com.demirr.eticaret.dto.request.UpdateProductRequest;
 import com.demirr.eticaret.dto.response.ProductResponse;
 import com.demirr.eticaret.entities.Product;
-import com.demirr.eticaret.exception.ProductNotFoundException;
-import com.demirr.eticaret.exception.ProductOutOfStockException;
+import com.demirr.eticaret.exception.productexception.ProductNotFoundException;
+import com.demirr.eticaret.exception.productexception.ProductOutOfStockException;
 import com.demirr.eticaret.service.ProductService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -3,6 +3,7 @@ package com.demirr.eticaret.entities;
 import com.demirr.eticaret.common.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,8 +13,9 @@ import lombok.Setter;
 @Setter
 public class CartItem extends BaseEntity {
 
-
+    @Min(value = 0,message = "adet sayisi 0 dan büyük olamlidir")
     private int adet;
+    @Min(value = 0,message = "toplam fiyat sayisi 0 dan büyük olamlidir")
     private int toplamFiyat;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
@@ -21,45 +23,11 @@ public class CartItem extends BaseEntity {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinColumn(name = "cart_id", referencedColumnName = "id")
     private Cart cart;
-
-    @JoinColumn(name = "Customer_Id")
-    private Long customerId;
-
-   @JoinColumn(name = "Store_Id")
-    private Long storeId;
-
-
-
-    /*
-
-     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
-    @JoinColumn(name = "cart_id", referencedColumnName = "cart_id")
-    private Cart cart;
-
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "product_id", referencedColumnName = "product_id")
-    private Product product;
-
-    private int adet;
-    private int toplamFiyat;
-
-
-
-
-
-
-
-    @ManyToOne
-    @JoinColumn(name = "cart_id", nullable = false)
-    private Cart cart;
-
-    @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
-    */
-
-
-
-
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    private Customer customer;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "store_id", referencedColumnName = "id")
+    private Store store;
 
 }

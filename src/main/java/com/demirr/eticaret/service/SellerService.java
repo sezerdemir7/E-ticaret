@@ -14,4 +14,6 @@ public interface SellerService {
     Optional<String> getSellerNameById(Long id);
 
     List<SellerResponse> getAllSeller();
+
+    Seller getOneSellerById(Long id);
 }

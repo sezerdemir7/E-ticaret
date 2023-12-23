@@ -3,6 +3,7 @@ package com.demirr.eticaret.service.impl;
 import com.demirr.eticaret.dto.request.CreateCustomerRequest;
 import com.demirr.eticaret.dto.response.CustomerResponse;
 import com.demirr.eticaret.entities.Customer;
+import com.demirr.eticaret.exception.customerexception.CustomerNotFoundException;
 import com.demirr.eticaret.repository.CustomerRepository;
 import com.demirr.eticaret.service.CustomerService;
 import org.springframework.http.HttpStatus;
@@ -41,7 +42,7 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer getCustomer(Long id){
 
         Customer customer= customerRepository.findById(id)
-                .orElseThrow(()->new RuntimeException(" CustomerId: "+id+"hata customer bulunamadı"));
+                .orElseThrow(()->new CustomerNotFoundException(" CustomerId: "+id+"hata customer bulunamadı"));
         return customer;
     }
 

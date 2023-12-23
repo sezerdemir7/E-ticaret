@@ -3,6 +3,7 @@ package com.demirr.eticaret.entities;
 import com.demirr.eticaret.common.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,15 +17,16 @@ import java.util.Set;
 
 public class Cart extends BaseEntity {
 
+
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer;
 
 
+    @ManyToOne
     @JoinColumn(name = "Store_Id")
-    private Long storeId;
-
-
+    private Store store;
+    @Min(value = 0,message = "totalprice 0 dan buyuk olmalidir")
     private double totalPrice;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart")
@@ -33,33 +35,6 @@ public class Cart extends BaseEntity {
     public Cart() {
         this.cartItems = new HashSet<>();
     }
-    /*
-
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
-    private Customer customer;
-
-
-
-    private int totalItems;
-
-    @OneToMany(cascade = CascadeType.DETACH, mappedBy = "cart")
-    private Set<CartItem> cartItems;
-
-
-
-    //
-
-
-
-    @ManyttoOne
-    @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer;
-
-    @OneToMany(mappedBy = "cart")
-    private Set<CartItem> cartItems;
-    */
-
 
 
 

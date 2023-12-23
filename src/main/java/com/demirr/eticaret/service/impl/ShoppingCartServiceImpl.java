@@ -24,8 +24,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     public Cart addProductToCart(CartItem cartItem) {
 
-        Customer customer = customerService.getCustomer(cartItem.getCustomerId());
-        Cart cart = cartService.getCartByCostumerId(cartItem.getCustomerId());
+        Customer customer = customerService.getCustomer(cartItem.getCustomer().getId());
+        Cart cart = cartService.getCartByCostumerId(cartItem.getCustomer().getId());
         double totalPrice=0;
 
         cart.getCartItems().add(cartItem);

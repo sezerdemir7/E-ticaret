@@ -3,6 +3,7 @@ package com.demirr.eticaret.service.impl;
 import com.demirr.eticaret.dto.request.CategoryRequest;
 import com.demirr.eticaret.dto.response.CategoryResponse;
 import com.demirr.eticaret.entities.Category;
+import com.demirr.eticaret.exception.categoryexception.CategoryNotFoundException;
 import com.demirr.eticaret.repository.CategoryRepository;
 import com.demirr.eticaret.service.CategoryService;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,8 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.save(category);
     }
 
-    public Category getOneCategoryById(Long id){
-        return categoryRepository.findById(id).orElseThrow(()->new RuntimeException("Aranan Category bulunamadı"));
+    public Category getOneCategoryById(Long categoryId){
+        return categoryRepository.findById(categoryId).orElseThrow(()->
+                new CategoryNotFoundException("Kategori bulunamadı kategori_id="+categoryId));
     }
 }

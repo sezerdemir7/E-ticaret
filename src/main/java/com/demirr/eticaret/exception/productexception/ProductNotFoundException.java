@@ -1,4 +1,4 @@
-package com.demirr.eticaret.exception;
+package com.demirr.eticaret.exception.productexception;
 
 public class ProductNotFoundException extends RuntimeException{
 

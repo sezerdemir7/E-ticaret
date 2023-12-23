@@ -41,8 +41,8 @@ public class FavoriteServiceImpl implements FavoriteService {
         }
         return list.stream().map(favorite -> new FavoriteResponse(
                 favorite.getId(),
-                favorite.getCustomerId(),
-                favorite.getProductId()
+                favorite.getCustomer().getId(),
+                favorite.getProduct().getId()
         )).collect(Collectors.toList());
     }
 
@@ -54,8 +54,8 @@ public class FavoriteServiceImpl implements FavoriteService {
 
         if(customer!=null && product!=null){
             Favorite favoriteToSave=new Favorite();
-            favoriteToSave.setCustomerId(request.getCustomerId());
-            favoriteToSave.setProductId(request.getProductId());
+            favoriteToSave.setCustomer(customer);
+            favoriteToSave.setProduct(product);
 
             return favoriteRepository.save(favoriteToSave);
         }
@@ -68,8 +68,8 @@ public class FavoriteServiceImpl implements FavoriteService {
         Favorite favorite=favoriteRepository.findById(favoriteId).orElse(null);
         FavoriteResponse response=new FavoriteResponse();
         response.setId(favorite.getId());
-        response.setCustomerId(favorite.getCustomerId());
-        response.setProductId(favorite.getProductId());
+        response.setCustomerId(favorite.getCustomer().getId());
+        response.setProductId(favorite.getProduct().getId());
         return response;
     }
 

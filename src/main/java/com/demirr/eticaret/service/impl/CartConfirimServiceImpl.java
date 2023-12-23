@@ -47,11 +47,10 @@ public class CartConfirimServiceImpl implements CartConfirmService{
 
 
         toSave.setCustomer(cart.getCustomer());
-        //toSave.setOrderDate(LocalDateTime.now());
-        toSave.setStoreId(cart.getStoreId());
+        toSave.setStore(cart.getStore());
         toSave.setTeslimatAdresi(teslimatAdresi);
-        toSave.setKargoId(kargo.getId());
-        toSave.setPaymentId(payment.getId());
+        toSave.setKargo(kargo);
+        toSave.setPayment(payment);
         toSave.setToplamTutar(totalOrderPrice);
         toSave.setStatus(false);
 

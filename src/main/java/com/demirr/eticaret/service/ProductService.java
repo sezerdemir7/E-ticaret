@@ -24,5 +24,5 @@ public interface ProductService {
 
     String getProductNameById(Long productId);
 
-
+    boolean productStockControlById(Long productId,int adet);
 }

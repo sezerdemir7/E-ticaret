@@ -2,10 +2,13 @@ package com.demirr.eticaret.entities;
 
 import com.demirr.eticaret.common.BaseEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "stores")
@@ -14,29 +17,17 @@ import java.util.List;
 public class Store extends BaseEntity {
 
 
+    @NotBlank(message = "store name bos olamaz")
+    @Size(min = 3,max =50,message = "store name en az 3, en fazla 50 karakter olmalidir")
     private String name;
-
-    @JoinColumn(name = "Seller_Id")
-    private Long sellerId;
-
-
-
+    @OneToOne
+    @JoinColumn(name = "seller_id",nullable = false)
+    private Seller seller;
+    @OneToMany(mappedBy = "store")
+    private Set<Product> products;
 
 
 }
 
-/*
- @ManyToMany
-    @JoinTable(
-            name = "store_products",
-            joinColumns = @JoinColumn(name = "store_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private Set<Product> products;
 
-    @OneToMany(mappedBy = "store")
-    private Set<Order> orders;
-
-    @Column(name = "Seller_id",nullable = false)
-    private Long sellerId;
- */
 
