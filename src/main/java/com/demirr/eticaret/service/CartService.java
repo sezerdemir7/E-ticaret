@@ -4,6 +4,7 @@ import com.demirr.eticaret.dto.response.CartResponse;
 import com.demirr.eticaret.entities.Cart;
 import com.demirr.eticaret.entities.CartItem;
 import com.demirr.eticaret.entities.Customer;
+import com.demirr.eticaret.entities.Store;
 import com.demirr.eticaret.repository.CartRepository;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-
 public interface CartService {
 
 
@@ -31,8 +31,11 @@ public interface CartService {
 
     Cart getCartByCustomerId(Long customerId);
 
-    Cart createCartByCustomerId(Customer customer, Long storeId);
+    Cart createCartByCustomerId(Customer customer, Store store);
 
+    void updateCart(Cart cart);
+
+    void deleteCartByCartId(Long id);
 }
 
 

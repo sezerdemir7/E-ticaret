@@ -4,6 +4,7 @@ import com.demirr.eticaret.dto.request.SellerRequest;
 import com.demirr.eticaret.dto.response.SellerResponse;
 import com.demirr.eticaret.entities.Seller;
 import com.demirr.eticaret.service.SellerService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +29,7 @@ public class SellerController {
     }
 
     @PostMapping()
-    public ResponseEntity<Seller> saveSeller(@RequestBody SellerRequest request){
+    public ResponseEntity<Seller> saveSeller(@Valid @RequestBody SellerRequest request){
         return new ResponseEntity<>(sellerService.saveSeller(request), CREATED);
     }
 

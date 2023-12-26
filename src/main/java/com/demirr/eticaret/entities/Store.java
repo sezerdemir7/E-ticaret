@@ -17,8 +17,7 @@ import java.util.Set;
 public class Store extends BaseEntity {
 
 
-    @NotBlank(message = "store name bos olamaz")
-    @Size(min = 3,max =50,message = "store name en az 3, en fazla 50 karakter olmalidir")
+
     private String name;
     @OneToOne
     @JoinColumn(name = "seller_id",nullable = false)

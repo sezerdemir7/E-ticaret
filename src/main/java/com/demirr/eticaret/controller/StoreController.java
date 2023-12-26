@@ -4,6 +4,7 @@ import com.demirr.eticaret.dto.request.StoreRequest;
 import com.demirr.eticaret.entities.Store;
 import com.demirr.eticaret.exception.storeexception.StoreNotFoundException;
 import com.demirr.eticaret.service.StoreService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,7 @@ public class StoreController {
     }
 
     @PostMapping("/saveStore")
-    public ResponseEntity<Store> createStore(@RequestBody StoreRequest request){
+    public ResponseEntity<Store> createStore(@Valid @RequestBody StoreRequest request){
         return new ResponseEntity<>(storeService.createStore(request), HttpStatus.CREATED);
     }
     @GetMapping("/getStore")

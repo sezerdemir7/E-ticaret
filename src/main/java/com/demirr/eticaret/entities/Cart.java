@@ -19,7 +19,7 @@ public class Cart extends BaseEntity {
 
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    @JoinColumn(name = "customer_id", referencedColumnName = "id",nullable = false)
     private Customer customer;
 
 
@@ -29,7 +29,7 @@ public class Cart extends BaseEntity {
     @Min(value = 0,message = "totalprice 0 dan buyuk olmalidir")
     private double totalPrice;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart")
+    @OneToMany( mappedBy = "cart")
     private Set<CartItem> cartItems;
 
     public Cart() {

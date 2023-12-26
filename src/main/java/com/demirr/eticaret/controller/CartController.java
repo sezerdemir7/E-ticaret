@@ -4,6 +4,7 @@ import com.demirr.eticaret.dto.response.CartResponse;
 import com.demirr.eticaret.entities.Cart;
 import com.demirr.eticaret.entities.CartItem;
 import com.demirr.eticaret.service.CartService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,7 @@ public class CartController {
     }
 
     @GetMapping("/{customerId}")
-    public List<CartResponse> getCustomerCartByCustomerId(@RequestParam Long customerId){
+    public List<CartResponse> getCustomerCartByCustomerId(@Valid @RequestParam Long customerId){
         return cartService.getCustomerCartByCustomerId(customerId);
     }
 

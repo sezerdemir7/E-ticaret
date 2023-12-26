@@ -6,8 +6,11 @@ import com.demirr.eticaret.entities.CartItem;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface CartItemService {
+
+    void updateCartItem(Set<CartItem> cartItems);
 
     CartItem save(CartItem cartItem);
 

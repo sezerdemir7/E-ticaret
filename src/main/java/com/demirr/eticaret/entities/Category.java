@@ -12,8 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Category extends BaseEntity {
-    @NotBlank(message = "name alani boş olamaz")
-    @Size(min = 3,max=50,message = "name en 3 ,en fazla 50 karakter olmalidir")
+
     private String name;
 
 

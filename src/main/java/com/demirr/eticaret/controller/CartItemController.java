@@ -4,6 +4,7 @@ import com.demirr.eticaret.dto.request.CartItemRequest;
 import com.demirr.eticaret.dto.response.CartItemResponse;
 import com.demirr.eticaret.entities.CartItem;
 import com.demirr.eticaret.service.CartItemService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,23 +25,23 @@ public class CartItemController {
     }
 
     @GetMapping("/{cartItemId}")
-    public ResponseEntity<List<CartItemResponse>> getCartItemById(@RequestParam Long cartItemId){
+    public ResponseEntity<List<CartItemResponse>> getCartItemById(@Valid @RequestParam Long cartItemId){
         return new ResponseEntity(cartItemService.getCartItemById(cartItemId),OK);
     }
     @GetMapping("/customerId/{customerId}")
-    public ResponseEntity<List<CartItemResponse>> getCartItemByCustomerId(@RequestParam Long customerId){
+    public ResponseEntity<List<CartItemResponse>> getCartItemByCustomerId(@Valid @RequestParam Long customerId){
         return new ResponseEntity(cartItemService.getCartItemByCustomerId(customerId),OK);
     }
 
     //sepete ekleme
     @PostMapping()
-    public ResponseEntity<CartItemResponse> saveCartItem(@RequestBody CartItemRequest request){
+    public ResponseEntity<CartItemResponse> saveCartItem(@Valid @RequestBody CartItemRequest request){
         return new ResponseEntity<>(cartItemService.saveCartItem(request), HttpStatus.CREATED);
     }
 
 
     @DeleteMapping("/{customerId}/{productId}")
-    public ResponseEntity<Void> deleteCartItemByProductId(@RequestParam Long customerId,Long productId){
+    public ResponseEntity<Void> deleteCartItemByProductId(@RequestParam Long customerId, Long productId){
         cartItemService.deleteCartItemByCustomerIdAndProductId(customerId,productId);
         return new ResponseEntity<>(OK);
     }

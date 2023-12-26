@@ -72,14 +72,14 @@ public class ProductServiceImpl implements ProductService {
         return getProductByProduct(productRepository.save(product));
     }
 
-    public void updateProductStock(Long productId,int stok){
+    public void updateProductStock(Long productId,int istenenAdet){
         Product product=getOneProductById(productId);
-        if(product.getStok()<stok){
+        if(product.getStok()<istenenAdet){
             throw new ProductOutOfStockException("Prodcut stoğu yetersiz! product name:"+product.getName()
                     +" stock:"+product.getStok());
         }
         int newStock;
-        newStock=product.getStok()-stok;
+        newStock=product.getStok()-istenenAdet;
         product.setStok(newStock);
         productRepository.save(product);
     }

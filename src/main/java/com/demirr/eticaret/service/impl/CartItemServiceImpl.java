@@ -12,6 +12,7 @@ import com.demirr.eticaret.service.*;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,6 +33,8 @@ public class CartItemServiceImpl implements CartItemService {
         this.customerService = customerService;
     }
 
+
+
     public CartItem save(CartItem cartItem){
         return cartItemRepository.save(cartItem);
     }
@@ -43,7 +46,7 @@ public class CartItemServiceImpl implements CartItemService {
         productService.productStockControlById(request.getProductId(), request.getAdet());
 
         if (customer.getCart()==null) {
-            cartService.createCartByCustomerId(customer, product.getStore().getId());
+            cartService.createCartByCustomerId(customer,product.getStore());
         }
 
         int toplamFiyat = request.getAdet() * product.getFiyat();
@@ -68,7 +71,7 @@ public class CartItemServiceImpl implements CartItemService {
         }
 
         Cart cart=cartService.addCartItemToCart(cartItem);
-        cartItem = cartItemRepository.findById(cartItem.getId()).get();
+        //cartItem = cartItemRepository.findById(cartItem.getId()).get();
         cartItem.setCart(cart);
         cartItemRepository.save(cartItem);
 
@@ -113,10 +116,16 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
 
+
+
     public List<CartItemResponse> getCartItemByCustomerId(Long customerId) {
         List<CartItem> cartItems= cartItemRepository.findCartItemByCustomerId(customerId);
         return cartItems.stream().map((t) -> new CartItemResponse(t.getAdet(), t.getProduct().getId(), t.getToplamFiyat(),
                 Optional.ofNullable(productService.getProductNameById(t.getProduct().getId())),t.getStore().getId()))
                 .collect(Collectors.toList());
+    }
+
+    public void updateCartItem(Set<CartItem> cartItems) {
+        cartItemRepository.deleteAll(cartItems);
     }
 }

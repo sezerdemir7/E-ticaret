@@ -13,13 +13,9 @@ import java.util.Set;
 @Table(name = "products")
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class Product extends BaseEntity {
-    @NotBlank(message = "product name alani boş olamaz")
-    @Size(min = 2,max=50,message = "product name en az 2, en fazla 50 karekter olmalidir")
+
     private String name;
-    @Min(value = 0,message = "fiyat 0 dan buyuk olmalidir")
     private int fiyat;
     private int stok;
     @ManyToOne(fetch = FetchType.EAGER)
@@ -28,6 +24,8 @@ public class Product extends BaseEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "store_id", nullable = false)
     private Store store;
+
+
 
 
 }

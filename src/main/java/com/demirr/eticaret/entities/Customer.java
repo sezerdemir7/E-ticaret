@@ -17,20 +17,15 @@ import java.util.List;
 @Getter
 @Setter
 public class Customer extends BaseEntity {
-    @NotBlank(message = "firstname boş olamaz")
-    @Size(min = 2, max = 50, message = "firstname en az 2, en fazla 50 karakter olmalidir")
+
     private String firstName;
-    @NotBlank(message = "lastname boş olamaz")
-    @Size(min = 2, max = 50, message = "lastname en az 2, en fazla 50 karakter olmalidir")
+
     private String lastName;
-    @NotBlank(message = "email boş olamaz")
-    @Email(message = "geçerli bir email yaziniz")
+
     private String email;
-    @NotBlank(message = "sifre bos olamaz")
-    @Size(min = 4,max = 8,message = "sifre en az 4, en fazla 8 karakter olmalidir")
+
     private String sifre;
-    @NotBlank(message = "adres boş olamaz")
-    @Size(min = 10,max = 100,message = "adres en az 10,en fazla 100 karakter olmalidir")
+
     private String adres;
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
     @JsonIgnore

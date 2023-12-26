@@ -4,6 +4,7 @@ import com.demirr.eticaret.dto.request.FavoriteCreateRequest;
 import com.demirr.eticaret.dto.response.FavoriteResponse;
 import com.demirr.eticaret.entities.Favorite;
 import com.demirr.eticaret.service.FavoriteService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class FavoriteController {
     }
 
     @PostMapping()
-    public Favorite createOneFavorite(@RequestBody FavoriteCreateRequest request){
+    public Favorite createOneFavorite(@Valid @RequestBody FavoriteCreateRequest request){
         return favoriteService.createOneFavorite(request);
     }
 

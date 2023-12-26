@@ -57,10 +57,14 @@ public class CartConfirimServiceImpl implements CartConfirmService{
 
 
         for (CartItem items:cartItems) {
-            productService.updateProductStock(items.getProduct().getId(),items.getProduct().getStok());
-        }
+            productService.updateProductStock(items.getProduct().getId(),items.getAdet());
 
-        return orderService.saveOrder(toSave);
+        }
+        OrderResponse orderResponse=orderService.saveOrder(toSave);
+        cartItemService.updateCartItem(cartItems);
+        cartService.updateCart(cart);
+
+        return orderResponse;
 
 
     }

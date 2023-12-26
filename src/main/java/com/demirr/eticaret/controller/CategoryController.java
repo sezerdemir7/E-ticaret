@@ -5,6 +5,7 @@ import com.demirr.eticaret.dto.response.CategoryResponse;
 import com.demirr.eticaret.entities.Category;
 import com.demirr.eticaret.exception.categoryexception.CategoryNotFoundException;
 import com.demirr.eticaret.service.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,14 +27,11 @@ public class CategoryController {
         return categoryService.getAllCategory();
     }
     @PostMapping()
-    public Category createCategory(@RequestBody CategoryRequest request){
+    public Category createCategory(@RequestBody @Valid CategoryRequest request){
         return categoryService.createCategory(request);
     }
 
-    @ExceptionHandler(CategoryNotFoundException.class)
-    public ResponseEntity<String> handleCategoryNotFounException(CategoryNotFoundException exception){
-        return new ResponseEntity<>(exception.getMessage(),NOT_FOUND);
-    }
+
 
 
 

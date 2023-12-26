@@ -16,10 +16,10 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 public class Order extends BaseEntity {
-    @NotBlank(message = "teslimat adresi boş olamaz")
+
     private String teslimatAdresi;
     private boolean status;
-    @Min(value = 0,message = "toplam tutar 0 dan buyuk olmalidir")
+
     private int toplamTutar;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id", referencedColumnName = "id")

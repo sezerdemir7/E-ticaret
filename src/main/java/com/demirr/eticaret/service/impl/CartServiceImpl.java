@@ -26,6 +26,7 @@ public class CartServiceImpl implements CartService {
     public CartServiceImpl(CartRepository cartRepository, CustomerService customerService, StoreService storeService) {
         this.cartRepository = cartRepository;
         this.customerService = customerService;
+
         this.storeService = storeService;
     }
 
@@ -33,14 +34,12 @@ public class CartServiceImpl implements CartService {
 
         Customer customer = customerService.getCustomer(cartItem.getCustomer().getId());
         Cart cart = getCartByCostumerId(cartItem.getCustomer().getId());
-        double totalPrice=0;
-
         cart.getCartItems().add(cartItem);
-        for (CartItem itemSet:cart.getCartItems()) {
-            totalPrice +=itemSet.getToplamFiyat();
-        }
+        double totalPrice = cart.getTotalPrice();
+        totalPrice +=cartItem.getToplamFiyat();
         cart.setTotalPrice(totalPrice);
-        Cart tosave=saveCart(cart);
+        cart.setStore(cartItem.getStore());
+        Cart tosave = saveCart(cart);
 
         return tosave;
 
@@ -90,36 +89,28 @@ public class CartServiceImpl implements CartService {
         return cartRepository.save(cart);
     }
 
-    /*public Cart addCartItemToCart(Long customerId, CartItem cartItem) {
-
-        Customer customer = customerService.getCustomer(customerId);
-        Cart cart = getCartByCostumerId(customerId);
-
-        cartItem.setCart(cart);
-        cart.setStoreId(cartItem.getStoreId());
-        if (cart.getCartItems() == null) {
-            cart.setCartItems((Set<CartItem>) cartItem);
-        } else {
-            cart.getCartItems().add(cartItem);
-        }
-
-        Cart saveCart = saveCart(cart);
-
-        customer.setCart(saveCart);
-
-        return saveCart;
-
-    }*/
 
     public Cart getCartByCustomerId(Long customerId) {
         return cartRepository.findByCustomerId(customerId).orElse(new Cart());
     }
 
-    public Cart createCartByCustomerId(Customer customer, Long storeId) {
+    public Cart createCartByCustomerId(Customer customer,Store store) {
         Cart newCart = new Cart();
-        Store store=storeService.getOneStoreById(storeId);
         newCart.setCustomer(customer);
         newCart.setStore(store);
         return cartRepository.save(newCart);
+    }
+
+
+    public void updateCart(Cart cart) {
+        cart.setCartItems(null);
+        cart.setTotalPrice(0);
+        cart.setStore(null);
+        cartRepository.save(cart);
+    }
+
+
+    public void deleteCartByCartId(Long id) {
+        cartRepository.deleteById(id);
     }
 }

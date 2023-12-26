@@ -18,7 +18,7 @@ public class Kargo extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id",nullable = false)
     private Customer customer;
-    @NotBlank(message = "teslimat adresi boş olamaz")
+
     private String teslimatAdresi;
     private LocalDate tahminiTaslimat;
 
