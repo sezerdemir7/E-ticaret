@@ -30,13 +30,13 @@ public class CartController {
      */
 
     @GetMapping
-    public List<Cart> getAllCart(){
-        return cartService.getAllCart();
+    public ResponseEntity<List<Cart>> getAllCart(){
+        return new ResponseEntity<>(cartService.getAllCart(),HttpStatus.OK);
     }
 
     @GetMapping("/{customerId}")
-    public List<CartResponse> getCustomerCartByCustomerId(@Valid @RequestParam Long customerId){
-        return cartService.getCustomerCartByCustomerId(customerId);
+    public ResponseEntity<List<CartResponse>> getCustomerCartByCustomerId(@Valid @RequestParam Long customerId){
+        return new ResponseEntity<>(cartService.getCustomerCartByCustomerId(customerId),HttpStatus.OK);
     }
 
 

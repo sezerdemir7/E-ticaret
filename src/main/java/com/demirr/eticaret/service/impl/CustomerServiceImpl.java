@@ -42,14 +42,13 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer getCustomer(Long id){
 
         Customer customer= customerRepository.findById(id)
-                .orElseThrow(()->new CustomerNotFoundException(" CustomerId: "+id+"hata customer bulunamadı"));
+                .orElseThrow(()->new CustomerNotFoundException(" CustomerId: "+id+" hata customer bulunamadı"));
         return customer;
     }
 
     public Customer save(Customer customer){
         return customerRepository.save(customer);
     }
-
     public CustomerResponse getOneCustomerById(Long customerId){
 
         CustomerResponse customerResponse=new CustomerResponse(getCustomer(customerId));
@@ -57,15 +56,15 @@ public class CustomerServiceImpl implements CustomerService {
 
     }
 
-
-    public ResponseEntity<Void> updateCustomerAdres(Long customerId, String adres) {
+    public CustomerResponse updateCustomerAdres(Long customerId, String adres) {
         Customer customer=getCustomer(customerId);
         customer.setAdres(adres);
-        customerRepository.save(customer);
-        return new ResponseEntity<>(HttpStatus.OK);
+        customer=customerRepository.save(customer);
+        return new CustomerResponse(customer);
     }
 
     public void deleteCustomerById(Long id) {
+
         customerRepository.deleteById(id);
     }
 }

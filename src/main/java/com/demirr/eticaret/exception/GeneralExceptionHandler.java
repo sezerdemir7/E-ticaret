@@ -1,9 +1,12 @@
 package com.demirr.eticaret.exception;
 
+import com.demirr.eticaret.exception.cartıtemexception.CartItemNotFoundException;
 import com.demirr.eticaret.exception.categoryexception.CategoryNotFoundException;
 import com.demirr.eticaret.exception.customerexception.CustomerNotFoundException;
 import com.demirr.eticaret.exception.productexception.ProductNotFoundException;
 import com.demirr.eticaret.exception.productexception.ProductOutOfStockException;
+import com.demirr.eticaret.exception.sellerexception.SellerNotFoundException;
+import com.demirr.eticaret.exception.storeexception.StoreNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -56,5 +59,17 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(CategoryNotFoundException.class)
     public ResponseEntity<String> handleCategoryNotFounException(CategoryNotFoundException exception){
         return new ResponseEntity<>(exception.getMessage(),NOT_FOUND);
+    }
+    @ExceptionHandler(StoreNotFoundException.class)
+    public ResponseEntity<String> handleStoreNotFoundException(StoreNotFoundException exception){
+        return new ResponseEntity<>(exception.getMessage(), NOT_FOUND);
+    }
+    @ExceptionHandler(CartItemNotFoundException.class)
+    public ResponseEntity<String> handleCartItemNotFoundException(CartItemNotFoundException exception){
+        return new ResponseEntity<>(exception.getMessage(), NOT_FOUND);
+    }
+    @ExceptionHandler(StoreNotFoundException.class)
+    public ResponseEntity<String> handleSellerNotFoundException(SellerNotFoundException exception){
+        return new ResponseEntity<>(exception.getMessage(), NOT_FOUND);
     }
 }

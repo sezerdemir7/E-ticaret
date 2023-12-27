@@ -33,31 +33,37 @@ public class ProductServiceImpl implements ProductService {
         Category category=categoryService.getOneCategoryById(request.getCategoryId());
         Store store=storeService.getOneStoreById(request.getStoreId());
 
-        Product product=new Product();
-        product.setName(request.getName());
-        product.setFiyat(request.getFiyat());
-        product.setStok(request.getStok());
-        product.setCategory(category);
-        product.setStore(store);
+        Product product = Product.builder()
+                .name(request.getName())
+                .fiyat(request.getFiyat())
+                .stok(request.getStok())
+                .category(category)
+                .store(store)
+                .build();
         return productRepository.save(product);
     }
 
     public List<ProductResponse> getAllProduct() {
 
         List<Product> products=productRepository.findAll();
-        return  products.stream().map((product)->new ProductResponse(
-                        product.getId(),product.getName(),product.getFiyat(),
-                        product.getCategory().getName(),
-                        product.getStok(),product.getStore().getName()))
-                .collect(Collectors.toList());
+        return getProductResponses(products);
     }
 
     public List<ProductResponse> getProductByName(String name) {
         List<Product> products=productRepository.findByNameContainingIgnoreCase(name);
-        return products.stream().map((product)->new ProductResponse(
-                        product.getId(),product.getName(),product.getFiyat(),
+        return getProductResponses(products);
+    }
+
+    public List<ProductResponse> getProductByCategoryName(String name) {
+        List<Product> products=productRepository.findByCategoryNameContainingIgnoreCase(name);
+        return getProductResponses(products);
+    }
+
+    private  List<ProductResponse> getProductResponses(List<Product> products) {
+        return products.stream().map((product) -> new ProductResponse(
+                        product.getId(), product.getName(), product.getFiyat(),
                         product.getCategory().getName(),
-                        product.getStok(),product.getStore().getName()))
+                        product.getStok(), product.getStore().getName()))
                 .collect(Collectors.toList());
     }
 

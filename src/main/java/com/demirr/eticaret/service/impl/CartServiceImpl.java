@@ -8,7 +8,6 @@ import com.demirr.eticaret.entities.Store;
 import com.demirr.eticaret.repository.CartRepository;
 import com.demirr.eticaret.service.CartService;
 import com.demirr.eticaret.service.CustomerService;
-import com.demirr.eticaret.service.StoreService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,19 +19,17 @@ public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
     private final CustomerService customerService;
-    private final StoreService storeService;
 
 
-    public CartServiceImpl(CartRepository cartRepository, CustomerService customerService, StoreService storeService) {
+
+    public CartServiceImpl(CartRepository cartRepository, CustomerService customerService) {
         this.cartRepository = cartRepository;
         this.customerService = customerService;
 
-        this.storeService = storeService;
     }
 
     public Cart addCartItemToCart(CartItem cartItem) {
 
-        Customer customer = customerService.getCustomer(cartItem.getCustomer().getId());
         Cart cart = getCartByCostumerId(cartItem.getCustomer().getId());
         cart.getCartItems().add(cartItem);
         double totalPrice = cart.getTotalPrice();

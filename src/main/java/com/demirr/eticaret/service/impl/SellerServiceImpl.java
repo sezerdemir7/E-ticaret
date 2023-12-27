@@ -3,6 +3,7 @@ package com.demirr.eticaret.service.impl;
 import com.demirr.eticaret.dto.request.SellerRequest;
 import com.demirr.eticaret.dto.response.SellerResponse;
 import com.demirr.eticaret.entities.Seller;
+import com.demirr.eticaret.exception.sellerexception.SellerNotFoundException;
 import com.demirr.eticaret.repository.SellerRepository;
 import com.demirr.eticaret.service.SellerService;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,6 @@ public class SellerServiceImpl implements SellerService {
     @Override
     public Seller getOneSellerById(Long id) {
         return sellerRepository.findById(id).orElseThrow(()->
-                new RuntimeException("Seller bulunamadi seller id="+id));
+                new SellerNotFoundException("Seller bulunamadi seller id="+id));
     }
 }

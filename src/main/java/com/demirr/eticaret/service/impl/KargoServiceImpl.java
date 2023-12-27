@@ -20,11 +20,11 @@ public class KargoServiceImpl implements KargoService {
         this.customerService = customerService;
     }
 
-    public Kargo createKargo(Long customerId, String teslimatAdresi){
+    public Kargo createKargo(Long customerId){
         Customer customer=customerService.getCustomer(customerId);
         Kargo kargo=new Kargo();
         kargo.setCustomer(customer);
-        kargo.setTeslimatAdresi(teslimatAdresi);
+        kargo.setTeslimatAdresi(customer.getAdres());
         LocalDateTime teslimatTarihi = LocalDateTime.now().plusDays(5);
         kargo.setTahminiTaslimat(LocalDate.from(teslimatTarihi));
         return kargoRespository.save(kargo);
@@ -34,7 +34,7 @@ public class KargoServiceImpl implements KargoService {
     public Kargo getOneKargoByCustomerId(Long customerId){
         Kargo kargo= kargoRespository.findByCustomerId(customerId);
         if(kargo==null){
-            kargo=createKargo(customerId,"ilhan akıncı");
+            kargo=createKargo(customerId);
         }
         return kargo;
     }

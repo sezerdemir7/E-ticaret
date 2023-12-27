@@ -11,7 +11,7 @@ public interface FavoriteService {
 
     List<FavoriteResponse> getAllFavoritesWithParam(Optional<Long> customerId, Optional<Long> productId);
 
-    Favorite createOneFavorite(FavoriteCreateRequest request);
+    FavoriteResponse createOneFavorite(FavoriteCreateRequest request);
 
     FavoriteResponse getOneFavoriteById(Long favoriteId);
 

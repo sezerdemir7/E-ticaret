@@ -5,10 +5,15 @@ import com.demirr.eticaret.dto.response.FavoriteResponse;
 import com.demirr.eticaret.entities.Favorite;
 import com.demirr.eticaret.service.FavoriteService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+
+import static org.springframework.http.HttpStatus.CREATED;
+
 @RestController
 @RequestMapping("/favoriler")
 public class FavoriteController {
@@ -27,8 +32,8 @@ public class FavoriteController {
     }
 
     @PostMapping()
-    public Favorite createOneFavorite(@Valid @RequestBody FavoriteCreateRequest request){
-        return favoriteService.createOneFavorite(request);
+    public ResponseEntity<FavoriteResponse> createOneFavorite(@Valid @RequestBody FavoriteCreateRequest request){
+        return new ResponseEntity<>(favoriteService.createOneFavorite(request), CREATED);
     }
 
     @GetMapping("/{favoriteId}")
@@ -36,8 +41,9 @@ public class FavoriteController {
         return favoriteService.getOneFavoriteById(favoriteId);
     }
 
+
     @DeleteMapping("/{favoriteId}")
-    public void deleteOneFavorite(@PathVariable Long customerId){
-        favoriteService.deleteOneFavoriteById(customerId);
+    public void deleteOneFavorite(@PathVariable Long favoriteId){
+        favoriteService.deleteOneFavoriteById(favoriteId);
     }
 }

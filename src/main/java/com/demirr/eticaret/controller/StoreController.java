@@ -1,6 +1,7 @@
 package com.demirr.eticaret.controller;
 
 import com.demirr.eticaret.dto.request.StoreRequest;
+import com.demirr.eticaret.dto.response.StoreResponse;
 import com.demirr.eticaret.entities.Store;
 import com.demirr.eticaret.exception.storeexception.StoreNotFoundException;
 import com.demirr.eticaret.service.StoreService;
@@ -23,7 +24,7 @@ public class StoreController {
         this.storeService = storeService;
     }
 
-    @GetMapping
+    @GetMapping("/getAllStore")
     public ResponseEntity<List<Store>> getAllStore(){
         return new ResponseEntity<>(storeService.getAllStore(),HttpStatus.OK);
     }
@@ -32,16 +33,12 @@ public class StoreController {
     public ResponseEntity<Store> createStore(@Valid @RequestBody StoreRequest request){
         return new ResponseEntity<>(storeService.createStore(request), HttpStatus.CREATED);
     }
-    @GetMapping("/getStore")
+    @GetMapping("/getStoreById")
     public ResponseEntity<Store> getStoreById(@RequestParam Long id){
         return new ResponseEntity<>(storeService.getOneStoreById(id),HttpStatus.OK);
     }
 
-    @ExceptionHandler(StoreNotFoundException.class)
-    public ResponseEntity<String> handleStoreNotFoundException(StoreNotFoundException exception){
-        return new ResponseEntity<>(exception.getMessage(), NOT_FOUND);
 
-    }
 
 
 

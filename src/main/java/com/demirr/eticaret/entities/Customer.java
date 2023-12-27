@@ -3,13 +3,9 @@ package com.demirr.eticaret.entities;
 import com.demirr.eticaret.common.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,11 +23,16 @@ public class Customer extends BaseEntity {
     private String sifre;
 
     private String adres;
-    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private Cart cart;
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE)
     private List<Order> orders;
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE)
+    private List<Favorite> favorites;
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.REMOVE)
+    private List<Payment> payments;
+
 
 
 }

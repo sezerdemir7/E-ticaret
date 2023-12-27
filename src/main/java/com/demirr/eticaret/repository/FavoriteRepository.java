@@ -15,10 +15,12 @@ public interface FavoriteRepository extends JpaRepository<Favorite,Long> {
     List<Favorite> findByProductId(Long productId);
 
 
-    @Query(value = 	"select 'begendi', l.post_id, u.avatar, u.user_name from "
+    /*@Query(value = 	"select 'begendi', l.post_id, u.avatar, u.user_name from "
             + "p_like l left join users u on u.id = l.user_id "
             + "where l.post_id in :postIds limit 5", nativeQuery = true)
     List<Object> findUserLikesByPostId(@Param("postIds") List<Long> postIds);
+
+     */
 
 
 }

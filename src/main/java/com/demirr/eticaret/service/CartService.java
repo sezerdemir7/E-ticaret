@@ -5,13 +5,9 @@ import com.demirr.eticaret.entities.Cart;
 import com.demirr.eticaret.entities.CartItem;
 import com.demirr.eticaret.entities.Customer;
 import com.demirr.eticaret.entities.Store;
-import com.demirr.eticaret.repository.CartRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public interface CartService {

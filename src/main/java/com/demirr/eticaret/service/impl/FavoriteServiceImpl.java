@@ -47,30 +47,32 @@ public class FavoriteServiceImpl implements FavoriteService {
     }
 
 
-    public Favorite createOneFavorite(FavoriteCreateRequest request){
+    public FavoriteResponse createOneFavorite(FavoriteCreateRequest request){
 
         Customer customer=customerService.getCustomer(request.getCustomerId());
         Product product=productService.getOneProductById(request.getProductId());
-
+        Favorite favoriteToSave=new Favorite();
         if(customer!=null && product!=null){
-            Favorite favoriteToSave=new Favorite();
+
             favoriteToSave.setCustomer(customer);
             favoriteToSave.setProduct(product);
 
-            return favoriteRepository.save(favoriteToSave);
+            favoriteToSave= favoriteRepository.save(favoriteToSave);
         }
         else{
             return null;
         }
+        return new FavoriteResponse(favoriteToSave.getId(),
+                favoriteToSave.getCustomer().getId(),
+                favoriteToSave.getProduct().getId());
     }
 
     public FavoriteResponse getOneFavoriteById(Long favoriteId){
         Favorite favorite=favoriteRepository.findById(favoriteId).orElse(null);
-        FavoriteResponse response=new FavoriteResponse();
-        response.setId(favorite.getId());
-        response.setCustomerId(favorite.getCustomer().getId());
-        response.setProductId(favorite.getProduct().getId());
-        return response;
+
+        return new FavoriteResponse(favorite.getId(),
+                favorite.getCustomer().getId(),
+                favorite.getProduct().getId());
     }
 
     public void deleteOneFavoriteById(Long favoriteId){

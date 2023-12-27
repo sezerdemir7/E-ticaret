@@ -1,13 +1,13 @@
 package com.demirr.eticaret.entities;
 
 import com.demirr.eticaret.common.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CurrentTimestamp;
-
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.sql.Timestamp;
 
@@ -19,16 +19,17 @@ public class Order extends BaseEntity {
 
     private String teslimatAdresi;
     private boolean status;
-
     private int toplamTutar;
     @ManyToOne(fetch = FetchType.EAGER)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "store_id", nullable = false)
     private Store store;
-    @OneToOne
-    @JoinColumn(name = "kargo_id", nullable = false)
+
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Kargo kargo;
     @OneToOne
     @JoinColumn(name = "payment_id", nullable = false)

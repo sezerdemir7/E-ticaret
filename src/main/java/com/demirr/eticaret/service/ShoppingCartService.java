@@ -1,10 +1,10 @@
 package com.demirr.eticaret.service;
 
-import com.demirr.eticaret.entities.Cart;
-import com.demirr.eticaret.entities.CartItem;
+import com.demirr.eticaret.dto.response.OrderResponse;
 
 public interface ShoppingCartService {
 
-    Cart addProductToCart(CartItem cartItem);
+    OrderResponse createOrderByCustomerId(Long customerId);
 
+    void deleteCartItemByCustomerIdAndProductId(Long customerId, Long productId);
 }

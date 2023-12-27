@@ -34,7 +34,7 @@ public class ProductController {
         return productService.getAllProduct();
     }
 
-    @GetMapping("/{name}")
+    @GetMapping("/{productname}")
     public ResponseEntity<List<ProductResponse>> getProductByName(@RequestParam String name){
         List<ProductResponse> productResponseList=productService.getProductByName(name);
        return ResponseEntity.ok(productResponseList);
@@ -44,6 +44,11 @@ public class ProductController {
     public ResponseEntity<ProductResponse> updateProductByProductId(@RequestParam Long id,
                                                                     @Valid @RequestBody UpdateProductRequest request){
         return new ResponseEntity<>(productService.updateProductById(id,request), OK);
+    }
+
+    @GetMapping("/category/{categoryname}")
+    public ResponseEntity<List<ProductResponse>> getProductByCategoryName(@RequestParam String categoryName){
+        return new ResponseEntity<>(productService.getProductByCategoryName(categoryName),OK);
     }
 
 

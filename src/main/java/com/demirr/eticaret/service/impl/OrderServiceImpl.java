@@ -28,7 +28,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     public List<Order> getCompletedOrdersByCustomerId(Long customerId) {
-        return orderRepository.findByCustomerIdAndStatus(customerId, false);
+        return orderRepository.findByCustomerIdAndStatus(customerId, true);
     }
 
     public OrderResponse saveOrder(Order request){

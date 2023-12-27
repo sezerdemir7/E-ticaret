@@ -21,8 +21,9 @@ public interface CartItemRepository extends JpaRepository<CartItem,Long> {
     Optional<CartItem> findByCustomerIdAndProductId(@Param("customerId") Long customerId,
                                                     @Param("productId") Long productId);
 
-    @Transactional
-    void deleteByProductIdAndCustomerId(Long customerId,Long productId);
+
+    void deleteByProductIdAndCustomerId(@Param("customerId") Long customerId,
+                                        @Param("productId") Long productId);
 
     //void merge(CartItem cartItem);
 

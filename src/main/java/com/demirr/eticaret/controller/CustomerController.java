@@ -38,13 +38,13 @@ public class CustomerController {
         return customerService.getOneCustomerById(id);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Void> updateCustomerAdres(@PathVariable Long id,@Valid @RequestBody String adres) {
-        return customerService.updateCustomerAdres(id, adres);
+    @PutMapping("/updateadres/{id}")
+    public ResponseEntity<CustomerResponse> updateCustomerAdres(@PathVariable Long id,@Valid @RequestBody String adres) {
+        return new ResponseEntity<>(customerService.updateCustomerAdres(id, adres),HttpStatus.OK) ;
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCustomerById(@RequestParam Long id) {
+    @DeleteMapping("/deletecustomer/{id}")
+    public ResponseEntity<Void> deleteCustomerById(@PathVariable Long id) {
         customerService.deleteCustomerById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

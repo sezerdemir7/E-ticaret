@@ -26,8 +26,6 @@ public class PaymentServiceImpl implements PaymentService {
         return paymentRepository.save(toSave);
     }
 
-
-
     public Payment getPaymentByCustomerId(Long customerId){
         return paymentRepository.findByCustomerId(customerId);
     }

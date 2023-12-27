@@ -7,12 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProductResponse {
-
     private Long id;
     private String name;
     private double fiyat;
-    //private Long categoryId;
-
     private String categoryName;
     private int stok;
     private String storeName;

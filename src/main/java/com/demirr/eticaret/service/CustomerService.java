@@ -19,7 +19,7 @@ public interface CustomerService {
 
     CustomerResponse getOneCustomerById(Long customerId);
 
-    ResponseEntity<Void> updateCustomerAdres(Long customerId, String adres);
+    CustomerResponse updateCustomerAdres(Long customerId, String adres);
 
     void deleteCustomerById(Long id);
 

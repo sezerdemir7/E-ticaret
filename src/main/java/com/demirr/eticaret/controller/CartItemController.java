@@ -41,7 +41,7 @@ public class CartItemController {
 
 
     @DeleteMapping("/{customerId}/{productId}")
-    public ResponseEntity<Void> deleteCartItemByProductId(@RequestParam Long customerId, Long productId){
+    public ResponseEntity<Void> deleteCartItemByProductId(@RequestParam Long customerId,@RequestParam Long productId){
         cartItemService.deleteCartItemByCustomerIdAndProductId(customerId,productId);
         return new ResponseEntity<>(OK);
     }
