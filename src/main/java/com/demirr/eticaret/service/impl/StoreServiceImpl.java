@@ -38,4 +38,13 @@ public class StoreServiceImpl implements StoreService {
     public List<Store> getAllStore(){
         return storeRepository.findAll();
     }
+
+
+    public void updateStoreOrders(Store store) {
+        Store updateStore=storeRepository.findById(store.getId()).orElseThrow(
+                ()->new StoreNotFoundException("Store bulunamadi store id="+store.getId())
+        );
+        storeRepository.save(updateStore);
+
+    }
 }

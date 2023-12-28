@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -21,6 +22,9 @@ public class Store extends BaseEntity {
     private Seller seller;
     @OneToMany(mappedBy = "store")
     private Set<Product> products;
+
+    @OneToMany
+    private List<Order> orders;
 
 
 }

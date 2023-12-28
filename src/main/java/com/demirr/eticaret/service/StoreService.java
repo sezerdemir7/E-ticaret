@@ -13,4 +13,5 @@ public interface StoreService {
 
     List<Store> getAllStore();
 
+    void updateStoreOrders(Store store);
 }

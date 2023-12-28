@@ -5,6 +5,8 @@ import com.demirr.eticaret.entities.Cart;
 import com.demirr.eticaret.entities.CartItem;
 import com.demirr.eticaret.entities.Customer;
 import com.demirr.eticaret.entities.Store;
+import com.demirr.eticaret.exception.cartexception.CartNotFoundException;
+import com.demirr.eticaret.exception.cartexception.CartBadException;
 import com.demirr.eticaret.repository.CartRepository;
 import com.demirr.eticaret.service.CartService;
 import com.demirr.eticaret.service.CustomerService;
@@ -31,6 +33,13 @@ public class CartServiceImpl implements CartService {
     public Cart addCartItemToCart(CartItem cartItem) {
 
         Cart cart = getCartByCostumerId(cartItem.getCustomer().getId());
+
+        if(cart.getStore().getId()!=cartItem.getStore().getId() && cart.getStore()!=null){
+            throw new CartBadException("sepette farklı mağazalardan ürünler olamaz");
+        }
+
+
+
         cart.getCartItems().add(cartItem);
         double totalPrice = cart.getTotalPrice();
         totalPrice +=cartItem.getToplamFiyat();
@@ -50,7 +59,8 @@ public class CartServiceImpl implements CartService {
      */
 
     public Cart getOneCartById(Long cartId) {
-        return cartRepository.findById(cartId).orElseThrow(() -> new RuntimeException("cart bulunamadı"));
+        return cartRepository.findById(cartId).orElseThrow(
+                () -> new CartNotFoundException("cart bulunamadı"));
     }
 
     public List<Cart> getAllCart() {

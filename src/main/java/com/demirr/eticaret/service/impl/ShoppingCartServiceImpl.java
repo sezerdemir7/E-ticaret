@@ -9,17 +9,16 @@ import java.util.Set;
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final CartService cartService;
-    private final CustomerService customerService;
+
     private final KargoService kargoService;
     private final PaymentService paymentService;
     private final OrderService orderService;
     private final CartItemService cartItemService;
     private final ProductService productService;
 
-    public ShoppingCartServiceImpl(CartService cartService, CustomerService customerService, KargoService kargoService,
-                                   PaymentService paymentService, OrderService orderService, CartItemService cartItemService, ProductService productService) {
+    public ShoppingCartServiceImpl(CartService cartService, KargoService kargoService,PaymentService paymentService,
+                                   OrderService orderService, CartItemService cartItemService, ProductService productService) {
         this.cartService = cartService;
-        this.customerService = customerService;
         this.kargoService = kargoService;
         this.paymentService = paymentService;
         this.orderService = orderService;
@@ -51,13 +50,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         toSave.setToplamTutar(totalOrderPrice);
         toSave.setStatus(false);
 
-
+        OrderResponse orderResponse=orderService.saveOrder(toSave);
 
         for (CartItem items:cartItems) {
             productService.updateProductStock(items.getProduct().getId(),items.getAdet());
 
         }
-        OrderResponse orderResponse=orderService.saveOrder(toSave);
+
         cartItemService.updateCartItem(cartItems);
         cartService.updateCart(cart);
 
