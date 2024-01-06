@@ -40,11 +40,11 @@ public class StoreServiceImpl implements StoreService {
     }
 
 
-    public void updateStoreOrders(Store store) {
+    public Store updateStoreOrders(Store store) {
         Store updateStore=storeRepository.findById(store.getId()).orElseThrow(
                 ()->new StoreNotFoundException("Store bulunamadi store id="+store.getId())
         );
-        storeRepository.save(updateStore);
+       return storeRepository.save(updateStore);
 
     }
 }

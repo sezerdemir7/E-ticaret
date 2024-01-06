@@ -27,17 +27,16 @@ public class CartServiceImpl implements CartService {
     public CartServiceImpl(CartRepository cartRepository, CustomerService customerService) {
         this.cartRepository = cartRepository;
         this.customerService = customerService;
-
     }
 
     public Cart addCartItemToCart(CartItem cartItem) {
 
         Cart cart = getCartByCostumerId(cartItem.getCustomer().getId());
-
-        if(cart.getStore().getId()!=cartItem.getStore().getId() && cart.getStore()!=null){
-            throw new CartBadException("sepette farklı mağazalardan ürünler olamaz");
+        if(cart.getStore()!=null){
+            if(cart.getStore().getId()!=cartItem.getStore().getId() ){
+                throw new CartBadException("sepette farklı mağazalardan ürünler olamaz");
+            }
         }
-
 
 
         cart.getCartItems().add(cartItem);

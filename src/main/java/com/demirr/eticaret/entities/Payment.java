@@ -1,6 +1,7 @@
 package com.demirr.eticaret.entities;
 
 import com.demirr.eticaret.common.BaseEntity;
+import com.demirr.eticaret.constants.PaymentType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,8 +19,9 @@ public class Payment extends BaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "customer_id",nullable = false)
     private Customer customer;
-
+    //private PaymentType paymentType;
     private int odenenTutar;
+    private PaymentType paymentType;
 
 
 }

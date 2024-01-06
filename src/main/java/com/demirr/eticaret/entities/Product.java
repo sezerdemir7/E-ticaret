@@ -11,7 +11,6 @@ import org.hibernate.annotations.OnDeleteAction;
 @Table(name = "products")
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Product extends BaseEntity {
@@ -26,5 +25,11 @@ public class Product extends BaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "store_id", nullable = false)
     private Store store;
+
+    /*@Enumerated(EnumType.STRING)
+    private Categories categories;
+   */
+
+
 
 }

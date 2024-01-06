@@ -35,6 +35,7 @@ public class CartItemServiceImpl implements CartItemService {
         this.customerService = customerService;
     }
 
+    private CartItem cartItem=new CartItem();
 
     public CartItem save(CartItem cartItem) {
         return cartItemRepository.save(cartItem);

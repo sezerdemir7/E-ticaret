@@ -2,6 +2,7 @@ package com.demirr.eticaret.service.impl;
 
 import com.demirr.eticaret.entities.Customer;
 import com.demirr.eticaret.entities.Kargo;
+import com.demirr.eticaret.entities.Order;
 import com.demirr.eticaret.repository.KargoRespository;
 import com.demirr.eticaret.service.CustomerService;
 import com.demirr.eticaret.service.KargoService;
@@ -20,22 +21,16 @@ public class KargoServiceImpl implements KargoService {
         this.customerService = customerService;
     }
 
-    public Kargo createKargo(Long customerId){
+    public Kargo createKargo(Long customerId, Order order){
         Customer customer=customerService.getCustomer(customerId);
         Kargo kargo=new Kargo();
         kargo.setCustomer(customer);
         kargo.setTeslimatAdresi(customer.getAdres());
+        kargo.setOrder(order);
         LocalDateTime teslimatTarihi = LocalDateTime.now().plusDays(5);
         kargo.setTahminiTaslimat(LocalDate.from(teslimatTarihi));
         return kargoRespository.save(kargo);
 
     }
 
-    public Kargo getOneKargoByCustomerId(Long customerId){
-        Kargo kargo= kargoRespository.findByCustomerId(customerId);
-        if(kargo==null){
-            kargo=createKargo(customerId);
-        }
-        return kargo;
-    }
 }

@@ -1,5 +1,6 @@
 package com.demirr.eticaret.controller;
 
+import com.demirr.eticaret.dto.request.CreateOrderRequest;
 import com.demirr.eticaret.dto.response.OrderResponse;
 import com.demirr.eticaret.service.ShoppingCartService;
 import org.springframework.http.HttpStatus;
@@ -18,9 +19,9 @@ public class ShoppingCartController {
         this.shoppingCartService = shoppingCartService;
     }
 
-    @PostMapping("/confirim/{customerId}")
-    public ResponseEntity<OrderResponse> saveCartByCustomerId(@RequestParam Long customerId){
-        return new ResponseEntity<>(shoppingCartService.createOrderByCustomerId(customerId), HttpStatus.OK);
+    @PostMapping("/siparis_ver/{customerId}")
+    public ResponseEntity<OrderResponse> saveCartByCustomerId(@RequestBody CreateOrderRequest request){
+        return new ResponseEntity<>(shoppingCartService.createOrderByRequest(request), HttpStatus.OK);
 
     }
     @DeleteMapping("/cartitem/{customerId}/{productId}")

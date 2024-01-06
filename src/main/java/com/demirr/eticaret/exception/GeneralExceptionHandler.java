@@ -5,6 +5,8 @@ import com.demirr.eticaret.exception.cartexception.CartBadException;
 import com.demirr.eticaret.exception.cartıtemexception.CartItemNotFoundException;
 import com.demirr.eticaret.exception.categoryexception.CategoryNotFoundException;
 import com.demirr.eticaret.exception.customerexception.CustomerNotFoundException;
+import com.demirr.eticaret.exception.favoriteexception.FavoriteNotFoundException;
+import com.demirr.eticaret.exception.paymentexception.PaymentTypeNotFoundException;
 import com.demirr.eticaret.exception.productexception.ProductNotFoundException;
 import com.demirr.eticaret.exception.productexception.ProductOutOfStockException;
 import com.demirr.eticaret.exception.sellerexception.SellerNotFoundException;
@@ -81,6 +83,14 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
     }
     @ExceptionHandler(CartNotFoundException.class)
     public ResponseEntity<String> handleCartNotFoundException(CartNotFoundException exception){
+        return new ResponseEntity<>(exception.getMessage(), BAD_REQUEST);
+    }
+    @ExceptionHandler(FavoriteNotFoundException.class)
+    public ResponseEntity<String> handleFavoriteNotFoundException(FavoriteNotFoundException exception){
+        return new ResponseEntity<>(exception.getMessage(), BAD_REQUEST);
+    }
+    @ExceptionHandler(PaymentTypeNotFoundException.class)
+    public ResponseEntity<String> handlePaymentTypeNotFoundException(PaymentTypeNotFoundException exception){
         return new ResponseEntity<>(exception.getMessage(), BAD_REQUEST);
     }
 }

@@ -23,8 +23,6 @@ public class CategoryServiceImpl implements CategoryService {
         List<Category> categories=categoryRepository.findAll();
         return categories.stream().
                 map(CategoryResponse::new).collect(Collectors.toList());
-
-
     }
 
     public Category createCategory(CategoryRequest request) {

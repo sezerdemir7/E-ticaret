@@ -5,6 +5,7 @@ import com.demirr.eticaret.dto.response.FavoriteResponse;
 import com.demirr.eticaret.entities.Customer;
 import com.demirr.eticaret.entities.Favorite;
 import com.demirr.eticaret.entities.Product;
+import com.demirr.eticaret.exception.favoriteexception.FavoriteNotFoundException;
 import com.demirr.eticaret.repository.FavoriteRepository;
 import com.demirr.eticaret.service.CustomerService;
 import com.demirr.eticaret.service.FavoriteService;
@@ -60,7 +61,7 @@ public class FavoriteServiceImpl implements FavoriteService {
             favoriteToSave= favoriteRepository.save(favoriteToSave);
         }
         else{
-            return null;
+            throw new FavoriteNotFoundException("Favori bulunamadi");
         }
         return new FavoriteResponse(favoriteToSave.getId(),
                 favoriteToSave.getCustomer().getId(),
@@ -68,7 +69,9 @@ public class FavoriteServiceImpl implements FavoriteService {
     }
 
     public FavoriteResponse getOneFavoriteById(Long favoriteId){
-        Favorite favorite=favoriteRepository.findById(favoriteId).orElse(null);
+        Favorite favorite=favoriteRepository.findById(favoriteId).orElseThrow(
+                ()->new FavoriteNotFoundException("Favori bulunamadi")
+        );
 
         return new FavoriteResponse(favorite.getId(),
                 favorite.getCustomer().getId(),

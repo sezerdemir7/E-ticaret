@@ -10,6 +10,9 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "orders")
@@ -36,6 +39,15 @@ public class Order extends BaseEntity {
     private Payment payment;
     @CurrentTimestamp()
     private Timestamp orderDate;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderDetail> orderDetails;
+
+    /*
+    public Order() {
+        this.orderDetails = new HashSet<>();
+    }
+
+     */
 
 }
 

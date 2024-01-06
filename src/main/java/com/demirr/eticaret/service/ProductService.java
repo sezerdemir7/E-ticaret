@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ProductService {
 
-    Product saveProduct(ProductRequest request);
+    ProductResponse saveProduct(ProductRequest request);
 
     List<ProductResponse> getAllProduct();
 
@@ -18,7 +18,7 @@ public interface ProductService {
 
     ProductResponse updateProductById(Long productId, UpdateProductRequest request);
 
-    ProductResponse getProductByProduct(Product product);
+    ProductResponse getProductResponseByProduct(Product product);
     void updateProductStock(Long productId,int stok);
 
     Product getOneProductById(Long id);

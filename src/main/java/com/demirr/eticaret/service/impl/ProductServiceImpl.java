@@ -15,7 +15,6 @@ import com.demirr.eticaret.service.StoreService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -29,18 +28,17 @@ public class ProductServiceImpl implements ProductService {
         this.storeService = storeService;
     }
 
-    public Product saveProduct(ProductRequest request) {
+    public ProductResponse saveProduct(ProductRequest request) {
         Category category=categoryService.getOneCategoryById(request.getCategoryId());
         Store store=storeService.getOneStoreById(request.getStoreId());
 
-        Product product = Product.builder()
-                .name(request.getName())
-                .fiyat(request.getFiyat())
-                .stok(request.getStok())
-                .category(category)
-                .store(store)
-                .build();
-        return productRepository.save(product);
+        Product product = new Product();
+                product.setName(request.getName());
+                product.setFiyat(request.getFiyat());
+                product.setStok(request.getStok());
+                product.setCategory(category);
+                product.setStore(store);
+        return getProductResponseByProduct(productRepository.save(product));
     }
 
     public List<ProductResponse> getAllProduct() {
@@ -75,7 +73,7 @@ public class ProductServiceImpl implements ProductService {
         product.setStok(request.getStok());
         product.setFiyat(request.getFiyat());
 
-        return getProductByProduct(productRepository.save(product));
+        return getProductResponseByProduct(productRepository.save(product));
     }
 
     public void updateProductStock(Long productId,int istenenAdet){
@@ -90,7 +88,7 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
     }
 
-    public ProductResponse getProductByProduct(Product product){
+    public ProductResponse getProductResponseByProduct(Product product){
         return new ProductResponse(
                 product.getId(),product.getName(),product.getFiyat(),
                 product.getCategory().getName(),
@@ -113,7 +111,6 @@ public class ProductServiceImpl implements ProductService {
         if(product.getStok()<adet){
             throw new ProductOutOfStockException("Product stoğu yetersiz! stok="+product.getStok());
         }
-
         return true;
     }
 
