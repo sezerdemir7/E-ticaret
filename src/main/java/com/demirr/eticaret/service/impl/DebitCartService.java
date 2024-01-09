@@ -10,7 +10,7 @@ public class DebitCartService implements PaymentFactoryService {
 
         boolean isValidCardNumber ;
         boolean isValidExpirationDate ;
-        boolean isValidCvv ;
+        boolean isValidCvv;
         System.out.println("Banka kartı ile ödeme gerçekleşti");
         return true;
     }
