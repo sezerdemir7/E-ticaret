@@ -27,7 +27,7 @@ public class PaymentServiceImpl implements PaymentService {
     public Payment createPayment(Long customerId, int toplamTutar,PaymentType paymentType){
         Customer customer=customerService.getCustomer(customerId);
 
-
+        //Factory method
         paymentFactory=PaymentTypeFactorServiceImpl.getInstance(paymentType);
         paymentFactory.validate();
 
@@ -46,6 +46,10 @@ public class PaymentServiceImpl implements PaymentService {
 
     public Payment savePayment(PaymentRequest paymentRequest) {
         Customer customer=customerService.getCustomer(paymentRequest.getCustomerId());
+
+        paymentFactory=PaymentTypeFactorServiceImpl.getInstance(paymentRequest.getPaymentType());
+        paymentFactory.validate();
+
         Payment payment = new Payment();
         payment.setCustomer(customer);
         payment.setPaymentType(paymentRequest.getPaymentType());
