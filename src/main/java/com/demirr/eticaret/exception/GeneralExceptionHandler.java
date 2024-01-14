@@ -49,7 +49,7 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ProductOutOfStockException.class)
     public ResponseEntity<?> productOutOfStockException(ProductOutOfStockException exception){
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(exception.getMessage(), BAD_REQUEST);
     }
     @ExceptionHandler(ProductNotFoundException.class)
     public ResponseEntity<String> handleProductNotFoundException(ProductNotFoundException exception){
@@ -78,19 +78,19 @@ public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(exception.getMessage(), NOT_FOUND);
     }
     @ExceptionHandler(CartBadException.class)
-    public ResponseEntity<String> handleCartException(CartBadException exception){
+    public ResponseEntity<String> handleCartBadException(CartBadException exception){
         return new ResponseEntity<>(exception.getMessage(), BAD_REQUEST);
     }
     @ExceptionHandler(CartNotFoundException.class)
     public ResponseEntity<String> handleCartNotFoundException(CartNotFoundException exception){
-        return new ResponseEntity<>(exception.getMessage(), BAD_REQUEST);
+        return new ResponseEntity<>(exception.getMessage(), NOT_FOUND);
     }
     @ExceptionHandler(FavoriteNotFoundException.class)
     public ResponseEntity<String> handleFavoriteNotFoundException(FavoriteNotFoundException exception){
-        return new ResponseEntity<>(exception.getMessage(), BAD_REQUEST);
+        return new ResponseEntity<>(exception.getMessage(), NOT_FOUND);
     }
     @ExceptionHandler(PaymentTypeNotFoundException.class)
     public ResponseEntity<String> handlePaymentTypeNotFoundException(PaymentTypeNotFoundException exception){
-        return new ResponseEntity<>(exception.getMessage(), BAD_REQUEST);
+        return new ResponseEntity<>(exception.getMessage(), NOT_FOUND);
     }
 }
