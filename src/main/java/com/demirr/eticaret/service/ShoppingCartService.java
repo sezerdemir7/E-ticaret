@@ -9,6 +9,6 @@ public interface ShoppingCartService {
 
     OrderResponse createOrderByRequest(CreateOrderRequest request);
 
-    void deleteCartItemByCustomerIdAndProductId(Long customerId, Long productId);
-    //OrderResponse createOrderByCustomerId(Long customerId);
+    //void deleteCartItemByCustomerIdAndProductId(Long customerId, Long productId);
+
 }

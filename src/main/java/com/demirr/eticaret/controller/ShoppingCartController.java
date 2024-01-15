@@ -24,9 +24,10 @@ public class ShoppingCartController {
         return new ResponseEntity<>(shoppingCartService.createOrderByRequest(request), HttpStatus.OK);
 
     }
-    @DeleteMapping("/cartitem/{customerId}/{productId}")
+  /*  @DeleteMapping("/cartitem/{customerId}/{productId}")
     public ResponseEntity<Void> deleteCartItemByProductId(@RequestParam Long customerId,@RequestParam Long productId){
         shoppingCartService.deleteCartItemByCustomerIdAndProductId(customerId,productId);
         return new ResponseEntity<>(OK);
     }
+    */
 }

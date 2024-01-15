@@ -63,45 +63,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
 
-    public void deleteCartItemByCustomerIdAndProductId(Long customerId, Long productId) {
-        cartItemService.deleteCartItemByCustomerIdAndProductId(customerId,productId);
-    }
+   /* public void deleteCartItemByCustomerIdAndProductId(Long customerId, Long productId) {
+        cartItemService.deleteCartItemByCustomerIdAndProductId(customerId, productId);
+    }*/
 
-    /*
-    public OrderResponse createOrderByCustomerId(Long customerId){
-        Order toSave= new Order();
-        Cart cart=cartService.getCartByCustomerId(customerId);
-        Set<CartItem> cartItems =cart.getCartItems();
-        Payment payment;
-        Kargo kargo;
-
-
-        int totalOrderPrice= cartItemService.getTotalCartPrice(cartItems.stream().toList());
-        kargo=kargoService.createKargo(cart.getCustomer().getId());
-
-       // payment=paymentService.createPayment(cart.getCustomer().getId(),totalOrderPrice);
-
-
-        toSave.setCustomer(cart.getCustomer());
-        toSave.setStore(cart.getStore());
-        toSave.setTeslimatAdresi(cart.getCustomer().getAdres());
-        toSave.setKargo(kargo);
-        //toSave.setPayment(payment);
-        toSave.setToplamTutar(totalOrderPrice);
-        toSave.setStatus(false);
-
-        OrderResponse orderResponse=orderService.saveOrder(toSave,cartItems);
-
-        for (CartItem items:cartItems) {
-            productService.updateProductStock(items.getProduct().getId(),items.getAdet());
-
-        }
-
-        cartItemService.updateCartItem(cartItems);
-        cartService.updateCart(cart);
-
-        return orderResponse;
-
-    }
-     */
 }
