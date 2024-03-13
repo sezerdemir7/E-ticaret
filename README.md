@@ -16,9 +16,8 @@ Bu proje, Spring Boot kullanarak geliştirilmiş bir e-ticaret web sitesi örne�
 
 ### Backend:
 1. Projeyi klonlayın: `git clone https://github.com/sezerdemir7/E-ticaret.git`
-2. `backend` dizinine gidin: `cd backend`
-3. Maven'i kullanarak projeyi kurun: `mvn clean install`
-4. Veritabanını oluşturun ve `application.properties` dosyasında gerekli bağlantı bilgilerini girin.
+2. Maven'i kullanarak projeyi kurun: `mvn clean install`
+3. Veritabanını oluşturun ve `application.properties` dosyasında gerekli bağlantı bilgilerini girin.
 
 
 
