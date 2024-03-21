@@ -5,7 +5,7 @@ Bu proje, Spring Boot kullanarak geliştirilmiş bir e-ticaret web sitesi örne�
 ### Kullanılan Teknolojiler:
 
 #### Backend:
-- Spring Boot 2.7.0
+- Spring Boot 3.1.5
 - Java 17
 - PostgreSql
 - Lombok
